@@ -4,13 +4,22 @@ Betes: Civilization VII
 
 CHANGELOG
 ====================================================================================================
-Version
+Version 0.0.1
 ----------------------------------------------------------------------------------------------------
 
 GENERAL:
-
+- Début du Projet
 
 ADDED:
+- Class Attack
+- Class Defense
+- Class Beast
+- Class Biome
+- Class Case
+- Classe Food
+- Class Location
+- Class Map
+- Class Stats
 
 REMOVED: 
 
