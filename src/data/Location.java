@@ -23,4 +23,3 @@ public class Location {
 		return ordinate;
 	}
 }
-
