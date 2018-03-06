@@ -11,9 +11,12 @@ public class Biome {
 		biomeType = "Plains";
 		biomeColor = Color.GREEN;
 	}
-	public Biome(String biomeType, Color biomeColor) {
+	public Biome(String biomeType) {
 		this.biomeType = biomeType;
-		this.biomeColor = biomeColor;
+		if(biomeType == "Plains") biomeColor = new Color(64,139,80);
+		if(biomeType == "DeadNature") biomeColor = new Color(192,138,45);
+		if(biomeType == "Mountain") biomeColor = new Color(224,226,253);
+		if(biomeType == "Desert") biomeColor = new Color(205,189,68);
 	}
 	
 	public void setBiomeType( String biomeName) {

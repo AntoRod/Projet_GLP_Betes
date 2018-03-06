@@ -17,10 +17,10 @@ public class Case {
 		isObstacle = false;
 	}
 	public Case(int biomeNumber) {
-		if (biomeNumber == 1) biome = new Biome("Plains", Color.GREEN);
-		else if (biomeNumber == 2) biome = new Biome("Forest", Color.BLUE);
-		else if (biomeNumber == 3) biome = new Biome("Mountain", Color.WHITE);
-		else if (biomeNumber == 4) biome = new Biome("Desert", Color.YELLOW);
+		if (biomeNumber == 1) biome = new Biome("Plains");
+		else if (biomeNumber == 2) biome = new Biome("DeadNature");
+		else if (biomeNumber == 3) biome = new Biome("Mountain");
+		else if (biomeNumber == 4) biome = new Biome("Desert");
 	}
 
 	public void setObstacle(boolean variable) {
@@ -36,10 +36,6 @@ public class Case {
 	}
 	public void setBiome(String biomeName) {
 		biome.setBiomeType(biomeName);
-		if(biomeName == "Plains") biome.setColor(Color.GREEN);
-		if(biomeName == "Forest") biome.setColor(Color.BLUE);
-		if(biomeName == "Mountain") biome.setColor(Color.WHITE);
-		if(biomeName == "Desert") biome.setColor(Color.YELLOW);
 	}
 	
 	public Biome getBiome() {

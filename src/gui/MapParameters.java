@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 public class MapParameters {
 	
-	public static final int GUI_SIZE = 900;
+	public static final int GUI_SIZE = 960;
 	
 	public static final int MAP_WIDTH = 30;
 	

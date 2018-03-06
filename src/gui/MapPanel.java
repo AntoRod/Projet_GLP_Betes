@@ -21,7 +21,7 @@ public class MapPanel extends JPanel {
 		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
 				g.setColor(map.getCase(i, j).getBiome().getColor());
-				g.fillRect(0, 0, MapParameters.CASE_WIDTH, MapParameters.CASE_WIDTH);	
+				g.fillRect(0, 0, MapParameters.CASE_WIDTH, MapParameters.CASE_WIDTH);
 			}
 		}
 
