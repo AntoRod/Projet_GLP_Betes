@@ -18,6 +18,15 @@ public class Map {
 			}
 		}
 	}
+	public void setTestMap() {
+		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
+			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
+				int testNumber = 1 + (int)(Math.random() * ((4 - 1) + 1));
+				map[i][j] = new Case(testNumber);
+				
+			}
+		}
+	}
 	
 	
 	public Case[][] getMap() {

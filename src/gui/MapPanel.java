@@ -17,7 +17,7 @@ public class MapPanel extends JPanel {
 
 	
 	public void paintComponent(Graphics g){
-		map.setDefaultCases();
+		map.setTestMap();
 		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
 				g.setColor(map.getCase(i, j).getBiome().getColor());

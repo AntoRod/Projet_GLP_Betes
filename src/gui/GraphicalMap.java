@@ -57,7 +57,7 @@ public class GraphicalMap extends JFrame{
 		
 		/*TOUT ce qui concerne le Container de la map*/
 		Container mapContent = getContentPane();
-		mapContent.setPreferredSize(new Dimension(MapParameters.CASE_WIDTH*MapParameters.MAP_WIDTH,MapParameters.CASE_WIDTH*MapParameters.MAP_WIDTH));
+		mapContent.setPreferredSize(MapParameters.CASE_DIMENSION);
 		mapContent.setLayout(mapLayout);
 		
 		
