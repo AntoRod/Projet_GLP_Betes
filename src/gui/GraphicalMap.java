@@ -45,20 +45,20 @@ public class GraphicalMap extends JFrame{
 		JRadioButtonMenuItem rbMenuItem;
 		JCheckBoxMenuItem cbMenuItem;
 		GridLayout mapLayout = new GridLayout(MapParameters.MAP_WIDTH, MapParameters.MAP_WIDTH);
-		
+		/*TOUT ce qui concerne le Container de la map*/
+		Container mapContent = getContentPane();
+		mapContent.setPreferredSize(MapParameters.CASE_DIMENSION);
+		mapContent.setLayout(mapLayout);		
 		/*TOUT ce qui concerne la GridLayout*/
 		
 		for (int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for (int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				add(new MapPanel());
+				mapContent.add(new MapPanel(i, j));
 				
 			}
 		}
 		
-		/*TOUT ce qui concerne le Container de la map*/
-		Container mapContent = getContentPane();
-		mapContent.setPreferredSize(MapParameters.CASE_DIMENSION);
-		mapContent.setLayout(mapLayout);
+
 		
 		
 		/*TOUT ce qui concerne la barre de Menu de la Map*/
@@ -77,7 +77,7 @@ public class GraphicalMap extends JFrame{
 		this.setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		setLocationRelativeTo(null);
+//		setLocationRelativeTo(null);
 	}
 
 }
