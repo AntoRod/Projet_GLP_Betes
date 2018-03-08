@@ -77,7 +77,7 @@ public class GraphicalMap extends JFrame{
 		this.setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-//		setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 	}
 
 }
