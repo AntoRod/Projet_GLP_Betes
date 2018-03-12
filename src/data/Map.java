@@ -28,6 +28,11 @@ public class Map {
 		}
 	}
 	
+	public void setTile(int absciss, int ordinate) {
+		int testNumber = 1 + (int)(Math.random() * ((4 - 1) + 1));
+		map[absciss][ordinate] = new Case(testNumber);
+	}
+	
 	
 	public Case[][] getMap() {
 		return	map;

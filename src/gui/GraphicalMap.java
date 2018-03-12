@@ -3,6 +3,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -29,14 +30,15 @@ public class GraphicalMap extends JFrame{
 	
 	public GraphicalMap(String title) {
 		super(title);
-		
-		initMap();
+		try {
+			initMap();
+		} catch(IOException e) {e.getMessage();}
 		
 	}
 	
 
 	
-	public void initMap() {
+	public void initMap() throws IOException {
 		
 		/*TOUT les elements de l'interface*/
 		JMenuBar menuBar;

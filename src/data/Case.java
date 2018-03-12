@@ -25,14 +25,12 @@ public class Case {
 
 	public void setObstacle(boolean variable) {
 		isObstacle = variable;
-		
 	}
 	public boolean getObstacle() {
 		return isObstacle;
 	}
 	public void setLocation(Location loc) {
 		location = loc;
-		
 	}
 	public void setBiome(String biomeName) {
 		biome.setBiomeType(biomeName);
