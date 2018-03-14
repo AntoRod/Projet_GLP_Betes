@@ -5,29 +5,28 @@ import java.awt.Color;
 
 import gui.*;
 
-public class Case {
+public class Tile {
 	
-	private boolean isObstacle;
+	private boolean obstacleType;
 	private Location location;
 	private Biome biome;
 	private Dimension dimension = MapParameters.CASE_DIMENSION;
 	
-	public Case() {
+	public Tile() {
 		biome = new Biome();
-		isObstacle = false;
+		obstacleType = false;
 	}
-	public Case(int biomeNumber) {
-		if (biomeNumber == 1) biome = new Biome("Plains");
-		else if (biomeNumber == 2) biome = new Biome("DeadNature");
-		else if (biomeNumber == 3) biome = new Biome("Mountain");
-		else if (biomeNumber == 4) biome = new Biome("Desert");
+	public Tile(int biomeNumber) {
+		if (biomeNumber == 1) biome = new Biome(MapParameters.PlainsName);
+		else if (biomeNumber == 2) biome = new Biome(MapParameters.DeadName);
+		else if (biomeNumber == 3) biome = new Biome(MapParameters.MountainName);
+		else if (biomeNumber == 4) biome = new Biome(MapParameters.DesertName);
 	}
-
 	public void setObstacle(boolean variable) {
-		isObstacle = variable;
+		obstacleType = variable;
 	}
-	public boolean getObstacle() {
-		return isObstacle;
+	public boolean isObstacle() {
+		return obstacleType;
 	}
 	public void setLocation(Location loc) {
 		location = loc;

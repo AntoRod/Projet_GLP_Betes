@@ -4,41 +4,43 @@ import gui.MapParameters;
 
 public class Map {
 	
-	private Case[][] map = new Case[MapParameters.MAP_WIDTH][MapParameters.MAP_WIDTH];
+	private Tile[][] map = new Tile[MapParameters.MAP_WIDTH][MapParameters.MAP_WIDTH];
 
 	
 	
-	public void setCases (Case[][] mapCase) {
-		map = mapCase;
+	public void setTiles (Tile[][] mapTile) {
+		map = mapTile;
 	}
-	public void setDefaultCases() {
+	public void setDefaultTiles() {
 		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				map[i][j] = new Case();
+				map[i][j] = new Tile();
 			}
 		}
 	}
 	public void setTestMap() {
 		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				int testNumber = 1 + (int)(Math.random() * ((4 - 1) + 1));
-				map[i][j] = new Case(testNumber);
+				int testNumber = MapParameters.generateRand(1,4);
+				map[i][j] = new Tile(testNumber);
 				
 			}
 		}
 	}
 	
 	public void setTile(int absciss, int ordinate) {
-		int testNumber = 1 + (int)(Math.random() * ((4 - 1) + 1));
-		map[absciss][ordinate] = new Case(testNumber);
+		int testNumber = MapParameters.generateRand(1,4);
+		int testNumber2 = MapParameters.generateRand(1,2);
+		map[absciss][ordinate] = new Tile(testNumber);
+		if(testNumber2 == 1) map[absciss][ordinate].setObstacle(true);
 	}
 	
 	
-	public Case[][] getMap() {
+	public Tile[][] getMap() {
 		return	map;
 	}
 	
-	public Case getCase(int x, int y) {
+	public Tile getTile(int x, int y) {
 		return map[x][y];
 	}
 	

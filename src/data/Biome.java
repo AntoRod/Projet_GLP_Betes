@@ -10,15 +10,15 @@ public class Biome {
 	private Color biomeColor;
 	
 	public Biome() {
-		biomeType = "Plains";
+		biomeType = MapParameters.PlainsName;
 		biomeColor = Color.GREEN;
 	}
 	public Biome(String biomeType) {
 		this.biomeType = biomeType;
-		if(biomeType == "Plains") biomeColor=MapParameters.PlainsColor;
-		if(biomeType == "DeadNature") biomeColor = MapParameters.DeadColor;
-		if(biomeType == "Mountain") biomeColor = MapParameters.MountainColor;
-		if(biomeType == "Desert") biomeColor = MapParameters.DesertColor;
+		if(biomeType.equals(MapParameters.PlainsName)) biomeColor = MapParameters.PlainsColor;
+		else if(biomeType.equals(MapParameters.DeadName)) biomeColor = MapParameters.DeadColor;
+		else if(biomeType.equals(MapParameters.MountainName)) biomeColor = MapParameters.MountainColor;
+		else if(biomeType.equals(MapParameters.DesertName)) biomeColor = MapParameters.DesertColor;
 	}
 	
 	public void setBiomeType( String biomeName) {

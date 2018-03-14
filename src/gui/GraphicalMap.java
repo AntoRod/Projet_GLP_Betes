@@ -59,10 +59,6 @@ public class GraphicalMap extends JFrame{
 				
 			}
 		}
-		
-
-		
-		
 		/*TOUT ce qui concerne la barre de Menu de la Map*/
 		menuBar = new JMenuBar();
 		menu = new JMenu("test menu");
