@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.Random;
 
 public class MapParameters {
 	
@@ -26,8 +27,21 @@ public class MapParameters {
 	public static final String MountainName = "Mountain";
 	public static final String DesertName = "Desert";
 	
-	public static int generateRand(int minimum, int maximum) {
+	//ALL BEASTS PARAMETERS
+	public static final String maleGender = "male";
+	public static final String femaleGender = "female";
+	public static final int BEAST_PERCENT = 5;
+	public static final int nbBeasts = (BEAST_PERCENT*MAP_WIDTH*MAP_WIDTH)/100;
+
+	
+/*	public static int generateRand2(int minimum, int maximum) {
 		int number = minimum + (int)(Math.random() * ((maximum - minimum) + minimum));
+		return number;
+	}*/
+	
+	public static int generateRand(int min, int max) {
+		Random rand = new Random();
+		int number = rand.nextInt(max - min + 1) + min;
 		return number;
 	}
 	

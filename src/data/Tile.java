@@ -10,7 +10,6 @@ public class Tile {
 	private boolean obstacleType;
 	private Location location;
 	private Biome biome;
-	private Dimension dimension = MapParameters.CASE_DIMENSION;
 	
 	public Tile() {
 		biome = new Biome();
@@ -22,6 +21,10 @@ public class Tile {
 		else if (biomeNumber == 3) biome = new Biome(MapParameters.MountainName);
 		else if (biomeNumber == 4) biome = new Biome(MapParameters.DesertName);
 	}
+	public Tile(int biomeNumber, Boolean obstacle) {
+		this(biomeNumber);
+		obstacleType = true;
+		}
 	public void setObstacle(boolean variable) {
 		obstacleType = variable;
 	}
@@ -42,8 +45,5 @@ public class Tile {
 		return location;
 	}
 	
-	public Dimension getDimensions() {
-		return dimension;
-	}
 
 }

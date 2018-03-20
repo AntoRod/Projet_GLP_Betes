@@ -1,5 +1,7 @@
 package data;
 
+import gui.MapParameters;
+
 public class Location {
 
 	private int absciss;
@@ -10,12 +12,11 @@ public class Location {
 		this.ordinate=y;
 	}
 	
-	
-	public void setLocation(int x, int y) {
-		setAbsciss(x);
-		setOrdinate(y);
+	public Location(int random) {
+		absciss = random%MapParameters.MAP_WIDTH;
+		ordinate = random%MapParameters.MAP_WIDTH;
+		
 	}
-	
 	
 	public void setAbsciss(int x) {
 		absciss = x;
@@ -24,7 +25,10 @@ public class Location {
 	public int getAbsciss() {
 		return absciss;
 	}
-	
+	public void setLocation(int x, int y) {
+		setAbsciss(x);
+		setOrdinate(y);
+	}
 	
 	public void setOrdinate(int y) {
 		ordinate = y;
@@ -32,6 +36,10 @@ public class Location {
 
 	public int getOrdinate() {
 		return ordinate;
+	}
+	
+	public String toString(){
+		return "A: "+absciss+" O: "+ordinate+"\n";
 	}
 	
 }

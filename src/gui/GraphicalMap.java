@@ -24,22 +24,24 @@ public class GraphicalMap extends JFrame{
 	
 	private static final long serialVersionUID = 15601560412569849L;
 	
-	public GraphicalMap() {
+	private MapPanel mapPanel;
+	private Container mapContent = null;
+	
+	public GraphicalMap() throws InterruptedException {
 		this("[ALPHA 0.0.1] Civilization VII");
 	}
 	
-	public GraphicalMap(String title) {
+	public GraphicalMap(String title) throws InterruptedException {
 		super(title);
 		try {
 			initMap();
-		} catch(IOException e) {e.getMessage();}
-		
+		} catch (IOException e) {e.printStackTrace();}
 	}
 	
 
 	
 	public void initMap() throws IOException {
-		
+
 		/*TOUT les elements de l'interface*/
 		JMenuBar menuBar;
 		JMenu menu, submenu;
@@ -47,18 +49,28 @@ public class GraphicalMap extends JFrame{
 		JRadioButtonMenuItem rbMenuItem;
 		JCheckBoxMenuItem cbMenuItem;
 		GridLayout mapLayout = new GridLayout(MapParameters.MAP_WIDTH, MapParameters.MAP_WIDTH);
+		
 		/*TOUT ce qui concerne le Container de la map*/
-		Container mapContent = getContentPane();
+		mapContent = getContentPane();
 		mapContent.setPreferredSize(MapParameters.CASE_DIMENSION);
 		mapContent.setLayout(mapLayout);		
+		initMapPanel();	
+
+		
 		/*TOUT ce qui concerne la GridLayout*/
+	/*	for (int i=0;i<MapParameters.MAP_WIDTH;i++) {
+			for (int j=0;j<MapParameters.MAP_WIDTH;j++) {
+				mapContent.add(new MapPanel());
+			}
+		}*/
 		
 		for (int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for (int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				mapContent.add(new MapPanel(i, j));
-				
+				mapContent.add(mapPanel.getTilePanel(i,j));
+				//mapContent.add(mapPanel.getBeastPanel(0));
 			}
 		}
+	
 		/*TOUT ce qui concerne la barre de Menu de la Map*/
 		menuBar = new JMenuBar();
 		menu = new JMenu("test menu");
@@ -77,6 +89,16 @@ public class GraphicalMap extends JFrame{
 		setResizable(false);
 		setLocationRelativeTo(null);
 	}
+	
+	public void initMapPanel() {
 
+		mapPanel = new MapPanel();
+		mapPanel.setRandomBeasts();
+		mapPanel.setRandomMapPanel();
+		mapPanel.setMapImages();
+		mapPanel.setBeastsImages();
+		
+
+	}
 }
 
