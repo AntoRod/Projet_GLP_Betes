@@ -42,17 +42,18 @@ public class MapBuilder {
 			this.setRandomMap(mapPanel);
 		}	
 		for(int i=0;i<Map_Settings.nbBeasts;i++) {
-			int absciss = Map_Settings.generateRand(1, Map_Settings.MAP_WIDTH);
-			int ordinate = Map_Settings.generateRand(1, Map_Settings.MAP_LENGTH);
+			int A = i*100/5;
+			int absciss = Map_Settings.generateRand(1,30);
+			int ordinate = Map_Settings.generateRand(1,30);
 			Location loc = new Location(absciss, ordinate);
 			BeastPanel beastPanel = new BeastPanel(new Beast(loc));
 			mapPanel.getBeastPanel().add(beastPanel);
 			//System.out.println(mapPanel.getBeast(i));
+			//System.out.println(A+" ABSCISS: "+absciss+" ORDINATE: "+ordinate+"\n");
 		}
 		return mapPanel;
 	}
-	
-	
+
 	/*for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 				for(int h=0;h<Map_Settings.nbBeasts;h++) {
