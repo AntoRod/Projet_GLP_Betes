@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import data.Beast;
@@ -15,15 +17,50 @@ import data.Tile;
 public class MapPanel extends JPanel {
 	private static final long serialVersionUID = 1583215278207488654L;
 	
-	private TilePanel[][] mapPanel;
-	private BeastPanel[] beastsPanel;
+	private TilePanel[][] tilesPanel;
+	private ArrayList<BeastPanel> beastPanel;
 	
+	//default map width/length
 	public MapPanel() {
-		mapPanel = new TilePanel[MapParameters.MAP_WIDTH][MapParameters.MAP_WIDTH];
-		beastsPanel = new BeastPanel[MapParameters.nbBeasts];
-		this.setDefaultMapPanel();
+		tilesPanel = new TilePanel[Map_Settings.MAP_WIDTH][Map_Settings.MAP_LENGTH];
+		beastPanel = new ArrayList<BeastPanel>();
+		
 	}
 	
+	//choose the map width/length
+	public MapPanel(int width, int length) {
+		tilesPanel = new TilePanel[width][length];
+		beastPanel = new ArrayList<BeastPanel>();
+		
+	}
+	
+	public void setTilePanel(int absciss, int ordinate, int biomeNumber) {
+		tilesPanel[absciss][ordinate] = new TilePanel(biomeNumber);
+	}
+	public void setTilePanel(int absciss, int ordinate, int biomeNumber, boolean obstacle) {
+		tilesPanel[absciss][ordinate] = new TilePanel(biomeNumber, obstacle);
+	}
+	
+	public TilePanel getTilePanel(int absciss, int ordinate) {
+		return tilesPanel[absciss][ordinate];
+	}
+	public Tile getTile(int absciss, int ordinate) {
+		return tilesPanel[absciss][ordinate].getTile();
+	}
+	public ArrayList<BeastPanel> getBeastPanel() {
+		return beastPanel;
+	}
+	public BeastPanel getBeastPanel(int beastNumber) {
+		return beastPanel.get(beastNumber);
+	}
+	public Beast getBeast(int beastNumber) {
+		return beastPanel.get(beastNumber).getBeast();
+	}
+	
+
+	
+	
+	/*
 	public void setDefaultMapPanel() {
 		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
 			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
@@ -31,37 +68,15 @@ public class MapPanel extends JPanel {
 			}
 		}
 	}
-	public void setRandomMapPanel() {
-		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
-			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				int biomeNumber = MapParameters.generateRand(1, 1);
-				int obstacle = MapParameters.generateRand(1, 10);
-				mapPanel[i][j] = new TilePanel(biomeNumber);
-				if (obstacle == 1) mapPanel[i][j].getTile().setObstacle(true);
-					//mapPanel[i][j] = new TilePanel(biomeNumber, true);
-			}
-		}
-	}
-	
-	public void setMapImages() {
-		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
-			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				mapPanel[i][j].getTile().setLocation(new Location(i,j));
-				mapPanel[i][j].setTileImage();
-				//System.out.println("Map: "+mapPanel[i][j].getTile().getLocation());
-				//System.out.println("Beast: "+beastsPanel[0].getBeast().getLocation());
-			}
-		}	
-	}
-	
+
 	public void setRandomBeasts() {
 		for(int i=0;i<MapParameters.nbBeasts;i++) {
 			beastsPanel[i] = new BeastPanel();
 			beastsPanel[i].getBeast().setDefaultBeast();
 			beastsPanel[i].getBeast().setDefaultLocation(i);
-			/*Location loc = beastsPanel[i].getBeast().getLocation();
-			Biome biome = new Biome(MapParameters.generateRand(1,4));
-			beastsPanel[i].setBeastImage(beastsPanel[i].getBeast(), biome);*/
+			//Location loc = beastsPanel[i].getBeast().getLocation();
+			//Biome biome = new Biome(MapParameters.generateRand(1,4));
+			//beastsPanel[i].setBeastImage(beastsPanel[i].getBeast(), biome);
 		}
 	}
 	
@@ -83,24 +98,15 @@ public class MapPanel extends JPanel {
 			}
 		}
 	}
-	
+	*/
 
 
-	public TilePanel getTilePanel(int absciss, int ordinate) {
-		return mapPanel[absciss][ordinate];
-	}
+
 	
-	public Tile getTile(int absciss, int ordinate) {
-		return mapPanel[absciss][ordinate].getTile();
-	}
 	
-	public BeastPanel getBeastPanel(int beastNumber) {
-		return beastsPanel[beastNumber];
-	}
 	
-	public Beast getBeast(int beastNumber) {
-		return beastsPanel[beastNumber].getBeast();
-	}
+	
+	
 	
 	/*
 	public MapPanel(int absciss, int ordinate) throws IOException{

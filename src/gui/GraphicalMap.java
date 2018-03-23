@@ -16,6 +16,9 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
+
+import core.MapBuilder;
+
 import java.awt.Graphics;
 
 import data.*;
@@ -24,8 +27,9 @@ public class GraphicalMap extends JFrame{
 	
 	private static final long serialVersionUID = 15601560412569849L;
 	
-	private MapPanel mapPanel;
 	private Container mapContent = null;
+	private MapPanel mapPanel;
+	private MapBuilder mapBuilder;
 	
 	public GraphicalMap() throws InterruptedException {
 		this("[ALPHA 0.0.1] Civilization VII");
@@ -35,41 +39,27 @@ public class GraphicalMap extends JFrame{
 		super(title);
 		try {
 			initMap();
-		} catch (IOException e) {e.printStackTrace();}
+		} catch(IOException e) {e.getMessage();}
+		
 	}
-	
 
 	
 	public void initMap() throws IOException {
-
+		
 		/*TOUT les elements de l'interface*/
 		JMenuBar menuBar;
 		JMenu menu, submenu;
 		JMenuItem menuItem;
 		JRadioButtonMenuItem rbMenuItem;
 		JCheckBoxMenuItem cbMenuItem;
-		GridLayout mapLayout = new GridLayout(MapParameters.MAP_WIDTH, MapParameters.MAP_WIDTH);
+		GridLayout mapLayout = new GridLayout(Map_Settings.MAP_WIDTH, Map_Settings.MAP_LENGTH);
 		
 		/*TOUT ce qui concerne le Container de la map*/
 		mapContent = getContentPane();
-		mapContent.setPreferredSize(MapParameters.CASE_DIMENSION);
+		mapContent.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		mapContent.setLayout(mapLayout);		
 		initMapPanel();	
 
-		
-		/*TOUT ce qui concerne la GridLayout*/
-	/*	for (int i=0;i<MapParameters.MAP_WIDTH;i++) {
-			for (int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				mapContent.add(new MapPanel());
-			}
-		}*/
-		
-		for (int i=0;i<MapParameters.MAP_WIDTH;i++) {
-			for (int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				mapContent.add(mapPanel.getTilePanel(i,j));
-				//mapContent.add(mapPanel.getBeastPanel(0));
-			}
-		}
 	
 		/*TOUT ce qui concerne la barre de Menu de la Map*/
 		menuBar = new JMenuBar();
@@ -91,14 +81,21 @@ public class GraphicalMap extends JFrame{
 	}
 	
 	public void initMapPanel() {
-
-		mapPanel = new MapPanel();
-		mapPanel.setRandomBeasts();
-		mapPanel.setRandomMapPanel();
-		mapPanel.setMapImages();
-		mapPanel.setBeastsImages();
 		
-
+		mapBuilder = new MapBuilder();
+		mapPanel = new MapPanel();
+		//setRandomMap(width of the map, length)
+		mapPanel = mapBuilder.setRandomMap(mapPanel);
+		mapPanel = mapBuilder.setRandomBeasts(mapPanel);
+		
+		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+				mapContent.add(mapPanel.getTilePanel(i,j));
+			}
+		}
+		
+		
 	}
+
 }
 

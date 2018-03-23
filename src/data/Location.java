@@ -1,6 +1,6 @@
 package data;
 
-import gui.MapParameters;
+import gui.Map_Settings;
 
 public class Location {
 
@@ -13,8 +13,8 @@ public class Location {
 	}
 	
 	public Location(int random) {
-		absciss = random%MapParameters.MAP_WIDTH;
-		ordinate = random%MapParameters.MAP_WIDTH;
+		absciss = random%Map_Settings.MAP_WIDTH;
+		ordinate = random%Map_Settings.MAP_LENGTH;
 		
 	}
 	

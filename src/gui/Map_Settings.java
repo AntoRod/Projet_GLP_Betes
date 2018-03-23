@@ -4,15 +4,24 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Random;
 
-public class MapParameters {
+public class Map_Settings {
+	
+	/* MAP LENGTH: LONGUEUR
+	 * MAP WIDTH: LARGEUR
+	 * CASE WIDTH: LONGUEUR/LARGEUR D'UNE CASE (LAISSER A 32)
+	 * GUI LENGTH: LONGUEUR TOTAL GUI 
+	 * GUI WIDTH: LARGEUR TOTAL GUI
+	 * GUI DIMENSION: RACCOURCI "PREFERED SIZE" PARAMETRE
+	 * 
+	 * */
 	
 	//ALL GUI PARAMETERS
 	public static final int MAP_WIDTH = 30;
+	public static final int MAP_LENGTH = 30;
 	public static final int CASE_WIDTH = 32;
-	public static final int GUI_SIZE = MAP_WIDTH*CASE_WIDTH;
-	public static final Dimension CASE_DIMENSION = new Dimension(CASE_WIDTH*MAP_WIDTH,CASE_WIDTH*MAP_WIDTH);
-	
-	
+	public static final int GUI_LENGTH = MAP_WIDTH*CASE_WIDTH;
+	public static final int GUI_WIDTH = MAP_LENGTH*CASE_WIDTH;
+	public static final Dimension GUI_DIMENSION = new Dimension(CASE_WIDTH*MAP_WIDTH,CASE_WIDTH*MAP_LENGTH);
 	
 	//ALL BIOME PARAMETERS
 	
@@ -39,6 +48,9 @@ public class MapParameters {
 		return number;
 	}*/
 	
+	//ALL GENERAL FUNCTIONS
+	
+	//GENERATE A RANDOM NUMBER BEETWIN A MIN AND A MAX (CAN BE EQUALS ?)
 	public static int generateRand(int min, int max) {
 		Random rand = new Random();
 		int number = rand.nextInt(max - min + 1) + min;
