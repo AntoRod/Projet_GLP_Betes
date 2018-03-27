@@ -14,13 +14,15 @@ public class BeastPanel extends JPanel{
 	private static final long serialVersionUID = -3253071850484805893L;
 	
 	private Beast beast;
-	private Image beastImage = null;
+	private Image beastImage;
 	
 	public BeastPanel(){
 		beast = new Beast();
+		beastImage = null;
 	}
 	public BeastPanel(Beast newBeast){
 		beast = newBeast;
+		beastImage = null;
 	}
 	
 	public void setBeast(Beast beastSet) {
@@ -28,7 +30,8 @@ public class BeastPanel extends JPanel{
 	}
 	
 	public void setBeastImage() {
-		beastImage = Toolkit.getDefaultToolkit().getImage("assets/beasts/female_grass_down.png");
+		beastImage = Toolkit.getDefaultToolkit().getImage("assets/beasts/female_Plains_down.png");
+
 	}
 	public void setBeastImage(Beast beast, Biome biome) {
 		String imagePath = "assets/beasts/";

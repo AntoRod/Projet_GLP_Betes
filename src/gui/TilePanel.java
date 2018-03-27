@@ -13,6 +13,8 @@ public class TilePanel extends JPanel{
 	private static final long serialVersionUID = -2031078202709262937L;
 	
 	private Tile tile;
+	private Image tileImage = null;
+	private Image beastImage = null;
 	
 	public TilePanel(){
 		tile = new Tile();
@@ -33,16 +35,16 @@ public class TilePanel extends JPanel{
 	}
 
 	
-	public Image setTileImage() {
-		Image tileImage = null;
+	public void setTileImage() {
+		Image image = null;
 		String imagePath = "assets/tiles/";
-		int imageNumber = Map_Settings.generateRand(1, 4);
+		int imageNumber = Map_Settings.generateRand(1,3);
 		imagePath+=tile.getBiome().getBiomeType();
 		if(tile.isObstacle()) imagePath+="_Obstacle";
 		imagePath+="_"+imageNumber+".jpg";
-		tileImage = Toolkit.getDefaultToolkit().getImage(imagePath);
+		image = Toolkit.getDefaultToolkit().getImage(imagePath);
 		//System.out.println(imagePath+"\n");
-		return tileImage;
+		tileImage = image;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -52,11 +54,18 @@ public class TilePanel extends JPanel{
 		//fill the panel with biome colors
 		g.fillRect(0,0, Map_Settings.CASE_WIDTH, Map_Settings.CASE_WIDTH);
 		//define the image of the tile and draw it in the panel
-		Image tileImage = this.setTileImage();
+		this.setBeastImage(beastImage);
 		g.drawImage(tileImage, 0, 0, this);
+		g.drawImage(beastImage, 0,0, this);
 	}
 	
-
+	public void setBeastImage(Image beast) {
+		beastImage = beast;
+	}
+	
+	public void resetBeastImage() {
+		beastImage = null;
+	}
 
 	
 	

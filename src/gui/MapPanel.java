@@ -24,7 +24,6 @@ public class MapPanel extends JPanel {
 	public MapPanel() {
 		tilesPanel = new TilePanel[Map_Settings.MAP_WIDTH][Map_Settings.MAP_LENGTH];
 		beastPanel = new ArrayList<BeastPanel>();
-		
 	}
 	
 	//choose the map width/length
@@ -81,13 +80,13 @@ public class MapPanel extends JPanel {
 	}
 	
 	public void setBeastsImages() {
-		for(int h=0;h<MapParameters.nbBeasts;h++) {
-			for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
-				for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
+		for(int h=0;h<Map_Settings.nbBeasts;h++) {
+			for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+				for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 					if(this.getTile(i, j).getLocation().getAbsciss()==this.getBeast(h).getLocation().getAbsciss()) {
 						if(this.getTile(i, j).getLocation().getOrdinate()==this.getBeast(h).getLocation().getOrdinate()) {
-							Location loc = beastsPanel[h].getBeast().getLocation();
-							Biome biome = new Biome(mapPanel[i][j].getTile().getBiome().getBiomeType());
+							Location loc = beastPanel.get(h).getBeast().getLocation();
+							Biome biome = new Biome(this.getTile(i, j).getBiome().getBiomeType());
 							
 							this.getBeastPanel(h).setBeastImage(beastsPanel[i].getBeast(), biome);
 							this.getTilePanel(i, j).addBeastImage(this.getBeastPanel(h).getBeastImage());
