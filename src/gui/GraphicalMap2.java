@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -26,10 +27,10 @@ import core.MenuBuilder;
 import core.Moving;
 
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 
 import data.*;
-
-public class GraphicalMap extends JFrame{
+public class GraphicalMap2 extends JFrame{
 	
 	private static final long serialVersionUID = 15601560412569849L;
 	
@@ -38,62 +39,48 @@ public class GraphicalMap extends JFrame{
 	private MenuPanel menuPanel;
 	private MapBuilder mapBuilder;
 	private MenuBuilder menuBuilder;
+	private JPanel mapJPanel;
 	private Moving movement;
 	
-	public GraphicalMap() throws InterruptedException {
+	public GraphicalMap2() throws InterruptedException {
 		this("[ALPHA 0.0.1] Civilization VII");
 	}
 	
-	public GraphicalMap(String title) throws InterruptedException {
+	public GraphicalMap2(String title) throws InterruptedException {
 		super(title);
+		
 		try {
 			initMap();
-			while(true) {
-				
-				movement = new Moving();
-				/*for(int i=0;i<Map_Settings.nbBeasts;i++) {
-					System.out.println(mapPanel.getBeast(i).getLocation());
-				}*/
-				
-				
-				Thread.sleep(1000);
-				for(int i=0;i<Map_Settings.nbBeasts;i++) {
-					movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1, 4));
-				}
-				
-				this.resetBeastImages();
-				mapPanel = mapBuilder.setBeastImages(mapPanel);
-				
-			}
+			
+			
 		} catch(IOException e) {e.getMessage();}
 		
-	}
-
-
-	public void initMap() throws IOException, InterruptedException {
 		
-		/*TOUT les elements de l'interface*/
+	}
+	
+	public void initMap() throws IOException, InterruptedException {
 		JMenuBar menuBar;
 		JMenu menu, submenu;
 		JMenuItem menuItem;
 		JRadioButtonMenuItem rbMenuItem;
 		JCheckBoxMenuItem cbMenuItem;
 		
-		GridLayout GUILayout = new GridLayout(Map_Settings.MAP_WIDTH, Map_Settings.MAP_LENGTH);
+		GridBagLayout GUILayout = new GridBagLayout();
+		GridLayout MapLayout = new GridLayout(Map_Settings.MAP_WIDTH, Map_Settings.MAP_LENGTH);
+		
 		
 		mapContent = getContentPane();
 		mapContent.setPreferredSize(Map_Settings.GUI_DIMENSION);
+		
 		mapContent.setLayout(GUILayout);
+		mapJPanel = new JPanel();
+		mapJPanel.setPreferredSize(Map_Settings.MAP_DIMENSION);
+		mapJPanel.setLayout(MapLayout);
 		
-		
-		/*TOUT ce qui concerne le Container de la map*/
-
-		
-		//initMenuPanel();
-		initMapPanel();	
+		initMapPanel();
 		addMapPanel();
-	
-		/*TOUT ce qui concerne la barre de Menu de la Map*/
+		
+		
 		menuBar = new JMenuBar();
 		menu = new JMenu("test menu");
 		menu.getAccessibleContext().setAccessibleDescription("description");
@@ -110,17 +97,9 @@ public class GraphicalMap extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);
-	}
-	
-	
-	
-	
-	public void initMenuPanel() {
-		menuPanel = new MenuPanel();
-		menuBuilder = new MenuBuilder();
-		this.setContentPane(menuBuilder);
-		menuBuilder.setPreferredSize(Map_Settings.GUI_DIMENSION);
-		menuBuilder.setBackground(menuPanel.getBackgroundImage());
+		
+		
+		
 	}
 	
 	
@@ -142,27 +121,19 @@ public class GraphicalMap extends JFrame{
 		}*/
 		mapPanel = mapBuilder.setBeastImages(mapPanel);
 		
+		
+		
 	}
 	
 	public void addMapPanel() {
-		//this.setContentPane(mapBuilder);
 		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 				//mapContent.add(mapPanel.getTilePanel(i,j));
-				mapContent.add(mapPanel.getTilePanel(i,  j), i*Map_Settings.MAP_WIDTH+j);
+				mapJPanel.add(mapPanel.getTilePanel(i,  j), i*Map_Settings.MAP_WIDTH+j);
 			}
 		}
-	}
-	
-	public void resetBeastImages() {
-		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
-			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-				mapPanel.getTilePanel(i,  j).setBeastImage(null);
-				repaint();
-			}
-		}
+		mapContent.add(mapJPanel);
 	}
 	
 
 }
-

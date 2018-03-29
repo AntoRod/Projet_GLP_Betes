@@ -20,10 +20,10 @@ public class Moving {
 			beast.setLocation(new Location(absciss+1, ordinate));
 		}
 		if(direction == 3) {
-			beast.setLocation(new Location(absciss-1, ordinate+1));
+			beast.setLocation(new Location(absciss-1, ordinate));
 		}
 		if(direction == 4) {
-			beast.setLocation(new Location(absciss-1, ordinate-1));
+			beast.setLocation(new Location(absciss, ordinate-1));
 		}
 		System.out.println("NEW LOCATION: "+beast.getLocation());
 	}

@@ -56,7 +56,6 @@ public class MapPanel extends JPanel {
 		return beastPanel.get(beastNumber).getBeast();
 	}
 	
-
 	
 	
 	/*

@@ -11,7 +11,7 @@ public class Map_Settings {
 	 * CASE WIDTH: LONGUEUR/LARGEUR D'UNE CASE (LAISSER A 32)
 	 * GUI LENGTH: LONGUEUR TOTAL GUI 
 	 * GUI WIDTH: LARGEUR TOTAL GUI
-	 * GUI DIMENSION: RACCOURCI "PREFERED SIZE" PARAMETRE
+	 * GUI DIMENSION: RACCOURCI "PREFERED SIZE" PARAMETER
 	 * 
 	 * */
 	
@@ -20,8 +20,9 @@ public class Map_Settings {
 	public static final int MAP_LENGTH = 30;
 	public static final int CASE_WIDTH = 32;
 	public static final int GUI_LENGTH = MAP_WIDTH*CASE_WIDTH;
-	public static final int GUI_WIDTH = MAP_LENGTH*CASE_WIDTH;
-	public static final Dimension GUI_DIMENSION = new Dimension(CASE_WIDTH*MAP_WIDTH,CASE_WIDTH*MAP_LENGTH);
+	public static final int GUI_WIDTH = MAP_LENGTH*CASE_WIDTH+500;
+	public static final Dimension GUI_DIMENSION = new Dimension(GUI_WIDTH, GUI_LENGTH);
+	public static final Dimension MAP_DIMENSION = new Dimension(CASE_WIDTH*MAP_WIDTH,CASE_WIDTH*MAP_LENGTH);
 	
 	//ALL BIOME PARAMETERS
 	
