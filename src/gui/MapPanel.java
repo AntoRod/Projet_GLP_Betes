@@ -14,7 +14,7 @@ import data.Biome;
 import data.Location;
 import data.Tile;
 
-public class MapPanel extends JPanel {
+public class MapPanel {
 	private static final long serialVersionUID = 1583215278207488654L;
 	
 	private TilePanel[][] tilesPanel;
@@ -57,99 +57,5 @@ public class MapPanel extends JPanel {
 	}
 	
 	
-	
-	/*
-	public void setDefaultMapPanel() {
-		for(int i=0;i<MapParameters.MAP_WIDTH;i++) {
-			for(int j=0;j<MapParameters.MAP_WIDTH;j++) {
-				mapPanel[i][j] = new TilePanel();
-			}
-		}
-	}
-
-	public void setRandomBeasts() {
-		for(int i=0;i<MapParameters.nbBeasts;i++) {
-			beastsPanel[i] = new BeastPanel();
-			beastsPanel[i].getBeast().setDefaultBeast();
-			beastsPanel[i].getBeast().setDefaultLocation(i);
-			//Location loc = beastsPanel[i].getBeast().getLocation();
-			//Biome biome = new Biome(MapParameters.generateRand(1,4));
-			//beastsPanel[i].setBeastImage(beastsPanel[i].getBeast(), biome);
-		}
-	}
-	
-	public void setBeastsImages() {
-		for(int h=0;h<Map_Settings.nbBeasts;h++) {
-			for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
-				for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-					if(this.getTile(i, j).getLocation().getAbsciss()==this.getBeast(h).getLocation().getAbsciss()) {
-						if(this.getTile(i, j).getLocation().getOrdinate()==this.getBeast(h).getLocation().getOrdinate()) {
-							Location loc = beastPanel.get(h).getBeast().getLocation();
-							Biome biome = new Biome(this.getTile(i, j).getBiome().getBiomeType());
-							
-							this.getBeastPanel(h).setBeastImage(beastsPanel[i].getBeast(), biome);
-							this.getTilePanel(i, j).addBeastImage(this.getBeastPanel(h).getBeastImage());
-						
-						}
-					}
-				}
-			}
-		}
-	}
-	*/
-
-
-
-	
-	
-	
-	
-	
-	
-	/*
-	public MapPanel(int absciss, int ordinate) throws IOException{
-		mapAbsciss = absciss;
-		mapOrdinate = ordinate;
-		map.setTile(absciss, ordinate);
-
-		if(absciss ==0 && ordinate ==0) {
-			map.setBeasts();
-		}
-
-	}*/
-
-	
-	/*public void paintComponent(Graphics g){
-
-		super.paintComponent(g);
-		//mapTravel = new Location(mapAbsciss, mapOrdinate);
-		tileImage = this.analyzeTile(map.getTile(mapAbsciss, mapOrdinate));
-		g.drawImage(tileImage, 0, 0, this);
-		//System.out.println("A: "+mapAbsciss+" B: "+mapOrdinate+"\n");
-		Beast[] test = map.getBeasts();
-		//if(map.getBeastNumber(beastNumber).getLocation().equals(new Location(mapAbsciss, mapOrdinate))) {
-			//beastNumber++;
-			//beastImage = Toolkit.getDefaultToolkit().getImage("assets/beasts/female_grass_down.png");
-			//g.drawImage(beastImage,0,0,this);
-			//System.out.println(beastNumber+"\n");
-		//}
-
-		
-		
-	}*/
-	
-	
-	
-/*	public Image analyzeTile(Tile tile) {
-		Image tileImage = null;
-		String imagePath = "assets/tiles/";
-		int imageNumber = MapParameters.generateRand(1, 1);
-		imagePath+=tile.getBiome().getBiomeType();
-		if(tile.isObstacle()) imagePath+="_Obstacle";
-		imagePath+="_"+imageNumber+".jpg";
-		//System.out.println(imagePath);
-		tileImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-		return tileImage;
-	}*/
 
 }

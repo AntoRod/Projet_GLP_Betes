@@ -16,7 +16,7 @@ public class Beast {
 		this.setDefaultBeast();
 	}
 	public Beast(Location loc) {
-		super();
+		this.setDefaultBeast();
 		location = loc;
 	}
 	
@@ -27,6 +27,10 @@ public class Beast {
 		else */sexe = Map_Settings.maleGender;
 		stats = new Stats();
 	}
+	
+
+	
+	
 
 	public void setLocation(Location loc) {
 		location = loc;
@@ -63,7 +67,7 @@ public class Beast {
 	
 	
 	public String toString() {
-		return ""+this.getLocation().toString();
+		return ""+this.getLocation().toString()+"Sexe: "+getSexe()+"\n";
 	}
 	
 	public void setDefaultLocation(int beastNumber) {

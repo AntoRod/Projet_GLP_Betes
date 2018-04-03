@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.Insets;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -46,11 +48,13 @@ public class GraphicalMap3 extends JFrame{
 	private MenuPanel menuPanel;
 	private MapBuilder mapBuilder;
 	private MenuBuilder menuBuilder;
-	private EventBuilder eventBuilder;
-	private JPanel mapJPanel;
-	private JPanel menuJPanel;
-	private JPanel settingsJPanel;
+	private JPanel mapJPanel = null;
+	private JPanel menuJPanel = null;
+	private JPanel settingsJPanel = null;
 	private Moving movement;
+	TextZone nbBeastsField ;
+	TextZone mapWidthField ;
+	TextZone mapLengthField ;
 	
 	public GraphicalMap3() throws InterruptedException {
 		this("[ALPHA 0.0.1] Civilization VII");
@@ -61,7 +65,7 @@ public class GraphicalMap3 extends JFrame{
 		
 		try {
 			//initialisation of the panels/containers/layouts
-			initComponents();
+			initMenuComponents();
 			
 			initMenu();
 			
@@ -81,7 +85,7 @@ public class GraphicalMap3 extends JFrame{
 		JCheckBoxMenuItem cbMenuItem;
 		
 
-		
+		initMapComponents();
 		initMapPanel();
 		addMapPanel();
 		
@@ -102,52 +106,69 @@ public class GraphicalMap3 extends JFrame{
 	}
 	
 	
-	public void initComponents() {
+	public void initMenuComponents() {
 		GridBagLayout GUILayout = new GridBagLayout();
-		GridLayout MapLayout = new GridLayout(Map_Settings.MAP_WIDTH, Map_Settings.MAP_LENGTH);
-		FlowLayout menuLayout = new FlowLayout();
 		
 		mapContent = getContentPane();
 		mapContent.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		mapContent.setLayout(GUILayout);
 		
-		mapJPanel = new JPanel();
-		mapJPanel.setPreferredSize(Map_Settings.MAP_DIMENSION);
-		mapJPanel.setLayout(MapLayout);
-		mapPanel = new MapPanel();
-		mapBuilder = new MapBuilder(mapPanel);
-		
-		menuPanel = new MenuPanel();
 		menuBuilder = new MenuBuilder();
 		menuJPanel = new JPanel();
 		settingsJPanel = new JPanel();
+		mapJPanel = new JPanel();
+		mapPanel = new MapPanel();
+		mapBuilder = new MapBuilder(mapPanel);
 		
-		menuJPanel.setBackground(Color.RED);
+		//menuJPanel.setBackground(Color.RED);
 		menuJPanel.setLayout(GUILayout);
 		menuJPanel.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		menuBuilder.setPreferredSize(Map_Settings.GUI_DIMENSION);
-		settingsJPanel.setBackground(Color.GREEN);
+		//settingsJPanel.setBackground(Color.GREEN);
 		settingsJPanel.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		settingsJPanel.setLayout(GUILayout);
 		
-		eventBuilder = new EventBuilder();
+	}
+	
+	public void initMapComponents () {
+		GridLayout MapLayout = new GridLayout(Map_Settings.MAP_WIDTH, Map_Settings.MAP_LENGTH);
+		
+		mapContent.setPreferredSize(Map_Settings.GUI_DIMENSION);
+		mapJPanel.setPreferredSize(Map_Settings.MAP_DIMENSION);
+		mapJPanel.setLayout(MapLayout);
 		
 	}
 	
 	public void initMenu() throws IOException, InterruptedException{
+		
+		//this.setContentPane(menuBuilder.getContentPane());
+		//this.setContentPane(menuBuilder);
+	
 		GridBagConstraints menuContrains = new GridBagConstraints();
 		
 		//menuContrains.fill = menuContrains.HORIZONTAL;
 		menuContrains.gridwidth = GridBagConstraints.REMAINDER;
 		menuContrains.gridheight = 1;
-		menuContrains.insets = new Insets(100, 15, 15, 0);
-		ImageIcon imageIcon = new ImageIcon("assets/images/test.png");
-		JButton play = new JButton("Play");
-		JButton settings = new JButton(imageIcon);
+		menuContrains.insets = new Insets(20, 0, 0, 0);
+		
+		ImageIcon startButton = new ImageIcon("assets/images/Start.png");
+		ImageIcon settingsButton = new ImageIcon("assets/images/Settings.png");
+		ImageIcon exitButton = new ImageIcon("assets/images/Exit.png");
+
+		JButton play = new JButton(startButton);
+		JButton settings = new JButton(settingsButton);
+		JButton exit = new JButton(exitButton);
+		
+		play.setContentAreaFilled(false);
+		play.setBorderPainted(false);
+		play.setBorder(BorderFactory.createEmptyBorder());
 		settings.setContentAreaFilled(false);
 		settings.setBorderPainted(false);
-		JButton exit = new JButton("Exit");
-			
+		settings.setBorder(BorderFactory.createEmptyBorder());
+		exit.setContentAreaFilled(false);
+		exit.setBorderPainted(false);
+		exit.setBorder(BorderFactory.createEmptyBorder());
+		
 		play.addActionListener(new Play());
 		settings.addActionListener(new Settings());
 		exit.addActionListener(new Exit());
@@ -163,22 +184,62 @@ public class GraphicalMap3 extends JFrame{
 	}
 	
 	public void initSettings() {
-		FlowLayout settingsLayout = new FlowLayout();
+		GridBagLayout settingsLayout = new GridBagLayout();
+		GridBagConstraints settingsContrains = new GridBagConstraints();
+		settingsContrains.gridwidth = GridBagConstraints.REMAINDER;
+		settingsContrains.gridheight = 5;
+		
+		Font settingsFont = new Font("BOLD",Font.BOLD, 40);
 		
 		JLabel nbBeasts = new JLabel("Number of Beasts :");
-		JTextField nbBeastsField = new JTextField(10);
-		JButton beastConfirm = new JButton("Confirm");
+		nbBeasts.setFont(settingsFont);
+		nbBeastsField = new TextZone(5, settingsFont);
+		nbBeastsField.setToolTipText("Max: 5% of the MAP SIZE");
 		JPanel nbBeastPanel = new JPanel();
 		nbBeastPanel.setLayout(settingsLayout);
-		
 		nbBeastPanel.add(nbBeasts);
 		nbBeastPanel.add(nbBeastsField);
-		nbBeastPanel.add(beastConfirm);
+		ConfirmButton confirmBeasts = new ConfirmButton();
+		confirmBeasts.addActionListener(new ValidateNbBeasts());
+		nbBeastPanel.add(confirmBeasts);
 		nbBeastPanel.setOpaque(false);
 		
+		JLabel mapWidth = new JLabel("Width of the Map :");
+		mapWidth.setFont(settingsFont);
+		mapWidthField = new TextZone(5, settingsFont);
+		mapWidthField.setToolTipText("Max: 30");
+		JPanel mapWidthPanel = new JPanel();
+		mapWidthPanel.setLayout(settingsLayout);
+		mapWidthPanel.add(mapWidth);
+		mapWidthPanel.add(mapWidthField);
+		ConfirmButton confirmWidth = new ConfirmButton();
+		confirmWidth.addActionListener(new ValidateWidth());
+		mapWidthPanel.add(confirmWidth);
+		mapWidthPanel.setOpaque(false);
+		mapLengthField = new TextZone(5, settingsFont);
+		mapLengthField.setToolTipText("Max: 30");
+		JLabel mapLength = new JLabel("Length of the Map :");
+		mapLength.setFont(settingsFont);
+
+		JPanel mapLengthPanel = new JPanel();
+		mapLengthPanel.setLayout(settingsLayout);
+		mapLengthPanel.add(mapLength);
+		mapLengthPanel.add(mapLengthField);
+		ConfirmButton confirmLength = new ConfirmButton();
+		confirmLength.addActionListener(new ValidateLength());
+		mapLengthPanel.add(confirmLength);
+		mapLengthPanel.setOpaque(false);
+	
+		ImageIcon backButton = new ImageIcon("assets/images/Back.png");
+		JButton back = new JButton(backButton);
+		back.setBorderPainted(false);
+		back.setContentAreaFilled(false);
+		back.addActionListener(new BackToMenu());
 		
-		
-		settingsJPanel.add(nbBeastPanel);
+		settingsJPanel.add(mapWidthPanel, settingsContrains);
+		settingsJPanel.add(mapLengthPanel, settingsContrains);
+		settingsJPanel.add(nbBeastPanel, settingsContrains);
+		settingsJPanel.add(back, settingsContrains);
 		mapContent.add(settingsJPanel);
 	}
 	
@@ -219,21 +280,23 @@ public class GraphicalMap3 extends JFrame{
 	
 	public void mapVisible() {
 		if(menuJPanel.isVisible()) menuJPanel.setVisible(false);
-		if(!mapJPanel.isVisible())mapJPanel.setVisible(true);
+		if(!mapJPanel.isVisible()) mapJPanel.setVisible(true);
 		if(settingsJPanel.isVisible()) settingsJPanel.setVisible(false);
+
 	}
 	
 	public void menuVisible() {
 		if(!menuJPanel.isVisible()) menuJPanel.setVisible(true);
-		if(mapJPanel.isVisible())mapJPanel.setVisible(false);
+		if(mapJPanel.isVisible()) mapJPanel.setVisible(false);
 		if(settingsJPanel.isVisible()) settingsJPanel.setVisible(false);
+
 	}
 	
 	public void settingsVisible() {
-		
-		if(mapJPanel.isVisible())mapJPanel.setVisible(false);
 		if(menuJPanel.isVisible()) menuJPanel.setVisible(false);
+		if(mapJPanel.isVisible()) mapJPanel.setVisible(false);
 		if(!settingsJPanel.isVisible()) settingsJPanel.setVisible(true);
+
 	}
 	
 	
@@ -258,6 +321,41 @@ public class GraphicalMap3 extends JFrame{
 		public void actionPerformed (ActionEvent e) {
 			System.exit(0);
 		}
+	}
+	
+	class BackToMenu implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			menuVisible();
+		}
+	}
+	
+	class ValidateNbBeasts implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			int number = Integer.parseInt(nbBeastsField.getText()); 
+			Map_Settings.setNbBeasts(number);
+			System.out.print(Map_Settings.nbBeasts+"\n");
+		}
+	}
+	
+	class ValidateWidth implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			int number = Integer.parseInt(mapWidthField.getText()); 
+			Map_Settings.setMapWidth(number);
+			System.out.print(Map_Settings.MAP_WIDTH+"\n");
+		}
+	}
+	class ValidateLength implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			int number = Integer.parseInt(mapLengthField.getText()); 
+			Map_Settings.setMapLength(number);
+			System.out.print(Map_Settings.MAP_LENGTH+"\n");
+		}
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponents(g);
+		Image test = Toolkit.getDefaultToolkit().getImage("assets/images/menu.jpg");
+		g.drawImage(test, 0, 0, this);
 	}
 	
 	

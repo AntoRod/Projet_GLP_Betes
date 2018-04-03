@@ -34,7 +34,7 @@ public class MapBuilder extends JComponent{
 				//terrain variant number (1->4)
 				int biomeNumber = Map_Settings.generateRand(1, 1);
 				//obstacle (100/max) percent DEFAULT: 8
-				int obstacle = Map_Settings.generateRand(1, 100);
+				int obstacle = Map_Settings.generateRand(1, 10);
 				mapPanel.setTilePanel(i, j, biomeNumber);
 				mapPanel.getTile(i, j).setLocation(new Location(i, j));
 				//mapPanel.setTilePanel(i, j, biomeNumber, true);
@@ -66,13 +66,13 @@ public class MapBuilder extends JComponent{
 		for(int i=0;i<Map_Settings.nbBeasts;i++) {
 			int A = i*100/Map_Settings.BEAST_PERCENT;
 			int tile = Map_Settings.generateRand(A,  A+(100/Map_Settings.BEAST_PERCENT));
-			int absciss = tile/30;
-			int ordinate = tile%30;
+			int absciss = tile/Map_Settings.MAP_WIDTH;
+			int ordinate = tile%Map_Settings.MAP_LENGTH;
 			Location loc = new Location(absciss, ordinate);
 			BeastPanel beastPanel = new BeastPanel(new Beast(loc));
 			mapPanel.getBeastPanel().add(beastPanel);
-			//System.out.println(mapPanel.getBeast(i));
-			System.out.println(tile+" ABSCISS: "+absciss+" ORDINATE: "+ordinate+"\n");
+//			System.out.println(mapPanel.getBeast(i));
+//			System.out.println(tile+" ABSCISS: "+absciss+" ORDINATE: "+ordinate+"\n");
 		}
 		return mapPanel;
 	}
@@ -101,7 +101,7 @@ public class MapBuilder extends JComponent{
 		return mapPanel;
 	}
 	
-	public MapPanel setBeastImages2(MapPanel mapPanel) throws InterruptedException {
+	/*public MapPanel setBeastImages2(MapPanel mapPanel) throws InterruptedException {
 		for(int i=0;i<Map_Settings.nbBeasts;i++) {
 			int absciss = mapPanel.getBeast(i).getAbsciss();
 			int ordinate = mapPanel.getBeast(i).getOrdinate();
@@ -136,7 +136,7 @@ public class MapBuilder extends JComponent{
 		
 		
 		return mapPanel;
-	}
+	}*/
 	
 	
 /*	public void paintComponent(Graphics g) {
