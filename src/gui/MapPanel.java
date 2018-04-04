@@ -15,7 +15,6 @@ import data.Location;
 import data.Tile;
 
 public class MapPanel {
-	private static final long serialVersionUID = 1583215278207488654L;
 	
 	private TilePanel[][] tilesPanel;
 	private ArrayList<BeastPanel> beastPanel;

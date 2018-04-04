@@ -27,10 +27,10 @@ public class Moving {
 		}
 		System.out.println("NEW LOCATION: "+beast.getLocation());
 	}
-	
-	
-	
-	
-	
 
+	
+	
+	
+	
+	
 }

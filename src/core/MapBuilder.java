@@ -19,7 +19,7 @@ public class MapBuilder extends JComponent{
 	
 	MapPanel panel;
 	Image tile = null;
-	
+	int biomeNumber = Map_Settings.generateRand(1,1);
 	public MapBuilder(MapPanel mapPanel) {
 		panel = mapPanel;
 	}
@@ -31,10 +31,28 @@ public class MapBuilder extends JComponent{
 		}
 		for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+				
+				if(i<(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2){
+	                //terrain variant number (1->4)
+	                 biomeNumber = 2;
+	                }
+	                else  if(i<(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
+	                     biomeNumber = 1;
+
+	                }
+	                else  if(i>(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
+	                     biomeNumber = 3;
+
+	                }
+	                else  if(i>(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2){
+	                     biomeNumber = 4;
+
+	                }
+				
 				//terrain variant number (1->4)
-				int biomeNumber = Map_Settings.generateRand(1, 1);
+			
 				//obstacle (100/max) percent DEFAULT: 8
-				int obstacle = Map_Settings.generateRand(1, 10);
+				int obstacle = Map_Settings.generateRand(1, 100);
 				mapPanel.setTilePanel(i, j, biomeNumber);
 				mapPanel.getTile(i, j).setLocation(new Location(i, j));
 				//mapPanel.setTilePanel(i, j, biomeNumber, true);
@@ -69,9 +87,10 @@ public class MapBuilder extends JComponent{
 			int absciss = tile/Map_Settings.MAP_WIDTH;
 			int ordinate = tile%Map_Settings.MAP_LENGTH;
 			Location loc = new Location(absciss, ordinate);
-			BeastPanel beastPanel = new BeastPanel(new Beast(loc));
+			Biome tileBiome = mapPanel.getTile(absciss, ordinate).getBiome();
+			BeastPanel beastPanel = new BeastPanel(new Beast(loc),tileBiome);
 			mapPanel.getBeastPanel().add(beastPanel);
-//			System.out.println(mapPanel.getBeast(i));
+			//System.out.println(mapPanel.getBeast(i));
 //			System.out.println(tile+" ABSCISS: "+absciss+" ORDINATE: "+ordinate+"\n");
 		}
 		return mapPanel;
@@ -101,43 +120,10 @@ public class MapBuilder extends JComponent{
 		return mapPanel;
 	}
 	
-	/*public MapPanel setBeastImages2(MapPanel mapPanel) throws InterruptedException {
-		for(int i=0;i<Map_Settings.nbBeasts;i++) {
-			int absciss = mapPanel.getBeast(i).getAbsciss();
-			int ordinate = mapPanel.getBeast(i).getOrdinate();
-			int width = 0;
-			int length = 0;
-			while(!(absciss==mapPanel.getTile(width, length).getAbsciss())) {
-				width++;
-				//System.out.println("PAS BONNE WIDTH\n");
-				System.out.println(mapPanel.getTile(width,  length).getLocation());
-				Thread.sleep(0);
-				while(!(ordinate==mapPanel.getTile(width, length).getOrdinate())) {
-					length++;
-					//System.out.println("PAS BONNE LENGTH\n");
-					//System.out.println(mapPanel.getTile(width,  length).getLocation());
-					Thread.sleep(0);
-				}
-				if(absciss==mapPanel.getTile(width, length).getAbsciss() && ordinate==mapPanel.getTile(width, length).getOrdinate()) {
-					//System.out.println("ET C'EST UN MATCH, PARFAIT, CETTE PHRASE EST TROP LONGUE MAIS AU MOINS ON LA VOIT...\n");
-					System.out.println("ON EN EST A : "+i+"\n");
-					Thread.sleep(0);
-					Image beastImage = mapPanel.getBeastPanel().get(i).getBeastImage();
-					mapPanel.getTilePanel(width, length).setBeastImage(beastImage);
-					width = 0;
-					length = 0;
-					i++;
-					if(i==45) break;
-				}
-				//else mapPanel.getTilePanel(width, length).setBeastImage(null);
-			}
-		}
-		
-		
-		
-		return mapPanel;
-	}*/
 	
+		
+		
+		
 	
 /*	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

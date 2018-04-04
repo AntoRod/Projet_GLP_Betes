@@ -43,6 +43,11 @@ public class Map_Settings {
 	public static final int BEAST_PERCENT = 5;
 	public static int nbBeasts = 1;//(BEAST_PERCENT*MAP_WIDTH*MAP_WIDTH)/100;
 
+	public static final String  Down = "down";
+	public static final String Up = "up";
+	public static final String Left = "left";
+	public static final String Right= "right";
+	
 	//ALL GENERAL FUNCTIONS
 	
 	//GENERATE A RANDOM NUMBER BEETWIN A MIN AND A MAX (CAN BE EQUALS)

@@ -51,6 +51,7 @@ public class GraphicalMap3 extends JFrame{
 	private JPanel mapJPanel = null;
 	private JPanel menuJPanel = null;
 	private JPanel settingsJPanel = null;
+	private JPanel sideMapPanel = null;
 	private Moving movement;
 	TextZone nbBeastsField ;
 	TextZone mapWidthField ;
@@ -66,11 +67,7 @@ public class GraphicalMap3 extends JFrame{
 		try {
 			//initialisation of the panels/containers/layouts
 			initMenuComponents();
-			
 			initMenu();
-			
-			
-			//initMap();
 			packLayout();
 		} catch(IOException e) {e.getMessage();}
 		
@@ -88,6 +85,7 @@ public class GraphicalMap3 extends JFrame{
 		initMapComponents();
 		initMapPanel();
 		addMapPanel();
+		initSideMap();
 		
 		
 		menuBar = new JMenuBar();
@@ -119,6 +117,7 @@ public class GraphicalMap3 extends JFrame{
 		mapJPanel = new JPanel();
 		mapPanel = new MapPanel();
 		mapBuilder = new MapBuilder(mapPanel);
+		sideMapPanel = new JPanel();
 		
 		//menuJPanel.setBackground(Color.RED);
 		menuJPanel.setLayout(GUILayout);
@@ -269,6 +268,48 @@ public class GraphicalMap3 extends JFrame{
 /**/	//mapJPanel.setVisible(false);
 	}
 	
+	public void initSideMap() {
+		GridBagLayout sideLayout = new GridBagLayout();
+		GridBagConstraints sideContrains = new GridBagConstraints();
+		sideContrains.gridwidth = GridBagConstraints.REMAINDER;
+		sideContrains.gridheight = 1;
+		sideContrains.insets = new Insets(20, 0, 0, 0);
+		
+		JButton start = new JButton("Play");
+		start.addActionListener(new StartGame());
+		sideMapPanel.setLayout(sideLayout);
+		sideMapPanel.add(start);
+		mapContent.add(sideMapPanel, sideContrains);
+	}
+	
+	
+	//MOST IMPORTANT FUNCTION OF THE GUI !!!
+	public void playGame() throws InterruptedException {
+		movement = new Moving();
+		int truc = 1000;
+		while(truc>0) {
+			for(int i=0;i<Map_Settings.nbBeasts;i++) {
+				movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1, 4));
+			}
+			this.resetBeastImages();
+			mapPanel = mapBuilder.setBeastImages(mapPanel);
+			Thread.sleep(10000);
+			System.out.println("TEST NUMERO"+truc+"\n");
+			truc--;
+		}	
+		
+	}
+	//MOST IMPORTANT FUNCTION OF THE GUI !!!
+	
+	public void resetBeastImages() {
+		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+				mapPanel.getTilePanel(i,  j).setBeastImage(null);
+				repaint();
+			}
+		}
+	}
+	
 	public void packLayout() {
 		
 		this.pack();
@@ -349,6 +390,14 @@ public class GraphicalMap3 extends JFrame{
 			int number = Integer.parseInt(mapLengthField.getText()); 
 			Map_Settings.setMapLength(number);
 			System.out.print(Map_Settings.MAP_LENGTH+"\n");
+		}
+	}
+	
+	class StartGame implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			try {
+				playGame();
+			} catch (InterruptedException e1) {e1.printStackTrace();}
 		}
 	}
 	

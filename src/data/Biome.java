@@ -19,7 +19,9 @@ public class Biome {
 		else if(biomeType.equals(Map_Settings.DeadName)) biomeColor = Map_Settings.DeadColor;
 		else if(biomeType.equals(Map_Settings.MountainName)) biomeColor = Map_Settings.MountainColor;
 		else if(biomeType.equals(Map_Settings.DesertName)) biomeColor = Map_Settings.DesertColor;
+	
 	}
+	
 	public Biome(int biomeNumber) {
 		if (biomeNumber == 1) this.setBiomeType(Map_Settings.PlainsName);
 		else if (biomeNumber == 2) this.setBiomeType(Map_Settings.DeadName);

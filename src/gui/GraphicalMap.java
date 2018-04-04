@@ -56,7 +56,7 @@ public class GraphicalMap extends JFrame{
 				}*/
 				
 				
-				Thread.sleep(1000);
+				Thread.sleep(500);
 				for(int i=0;i<Map_Settings.nbBeasts;i++) {
 					movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1, 4));
 				}

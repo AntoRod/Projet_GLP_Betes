@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import data.Beast;
 import data.Biome;
 
-public class BeastPanel{
+public class BeastPanel extends JPanel{
 	
 	private static final long serialVersionUID = -3253071850484805893L;
 	
@@ -23,30 +23,30 @@ public class BeastPanel{
 	public BeastPanel(Beast newBeast){
 		beast = newBeast;
 		beastImage = null;
-//		System.out.println(beast);
 	}
-	
-	
-	
+	public BeastPanel(Beast newBeast , Biome newBiome){
+		beast = newBeast;
+		beastImage = null ;
+		beast.setBiome(newBiome);
+	}
 	public void setBeast(Beast beastSet) {
 		beast = beastSet;
 	}
 	
-	public void setBeastImage() {
+	/*public void setBeastImage() {
 		beastImage = Toolkit.getDefaultToolkit().getImage("assets/beasts/female_Plains_down.png");
-	}
-	public void setBeastImage(Beast beast, Biome biome) {
+
+	}*/
+	
+	public void setBeastImage() {
 		String imagePath = "assets/beasts/";
-		imagePath+=beast.getSexe();
-		imagePath+="_"+biome.getBiomeType();
-		imagePath+="_down.png";
+		imagePath+=beast.getSexe()+"_";
+		imagePath+=beast.getBiome().getBiomeType()+"_";
+		imagePath+=beast.getOrientation()+".png";
 		beastImage = Toolkit.getDefaultToolkit().getImage(imagePath);
 		//System.out.println(imagePath);
 	}
 
-	
-	
-	
 	
 	public Beast getBeast() {
 		return beast;
