@@ -38,6 +38,7 @@ public class GraphicalMap2 extends JFrame{
 	private MapBuilder mapBuilder;
 	private JPanel mapJPanel;
 	private Moving movement;
+	private Fighting fight;
 	
 	public GraphicalMap2(){
 		this("[ALPHA 0.0.1] Civilization VII");
@@ -56,15 +57,31 @@ public class GraphicalMap2 extends JFrame{
 		while(true) {
 			
 			movement = new Moving();
+			fight = new Fighting();
 			/*for(int i=0;i<Map_Settings.nbBeasts;i++) {
 				System.out.println(mapPanel.getBeast(i).getLocation());
 			}*/
+			Thread.sleep(100);
+			for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+				for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+					int beastPerTile = fight.analyseTile(mapPanel.getTile(i,  j), mapPanel.getBeastPanel());
+					if(beastPerTile>=2) {
+						Image fightImage = Toolkit.getDefaultToolkit().getImage("assets/images/fight.png");
+						mapPanel.getTilePanel(i,  j).setBeastImage(fightImage);
+						resetBeastImages();
+//						System.out.println("Case: "+mapPanel.getTile(i,  j).getLocation()+" nombre de Betes: "+beastPerTile);
+					}
+				}
+			}
 			
 			
-			Thread.sleep(500);
 			for(int i=0;i<Map_Settings.nbBeasts;i++) {
 				//movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1,1));
-				movement.Move(mapPanel.getTilesPanel(), mapPanel.getBeastPanel(i));
+				if(mapPanel.getBeast(i).canMove()) {
+					//System.out.println("Number:"+mapPanel.getBeast(i)+" "+mapPanel.getBeast(i).canMove()+"\n");
+					movement.Move(mapPanel.getTilesPanel(), mapPanel.getBeastPanel(i));
+				}
+			
 			}
 			
 			this.resetBeastImages();

@@ -13,20 +13,24 @@ public class Beast {
 	private Location location;
 	private Biome biome;
 	private String orientation;
+	private int beastNumber;
+	private Boolean movement;
 	
 	public Beast () {
 		this.setDefaultBeast();
 	}
 
 	public Beast (int biomeNumber) {
-	
 		this.setBiome(biomeNumber);
 	}
 	
 	public Beast(Location loc) {
 		this.setRandomBeast();
 		location = loc;
-		
+	}
+	
+	public void setNumber(int number) {
+		beastNumber = number;
 	}
 	
 	public void setDefaultBeast() {
@@ -37,6 +41,7 @@ public class Beast {
 		stats = new Stats();
 		biome = new Biome(Map_Settings.DesertName);
 		orientation = "down";
+		movement = true;
 	}
 
 	public void setRandomBeast() {
@@ -48,6 +53,7 @@ public class Beast {
         this.setOrientation(number);
         number = Map_Settings.generateRand(1, 4);
         this.setBiome(number);
+        movement = true;
     }
 	
 	public void setOrientation(int beastOrientation){
@@ -56,6 +62,10 @@ public class Beast {
 		else if (beastOrientation == 3) orientation = Map_Settings.TOP;
 		else if (beastOrientation == 4) orientation =  Map_Settings.LEFT;
 	}
+	public void setMove(Boolean move) {
+		movement = move;
+	}
+	
 	public void setLocation(Location loc) {
 		location = loc;
 	}
@@ -84,6 +94,9 @@ public class Beast {
 		return orientation ;
 		
 	}
+	public int getNumber() {
+		return beastNumber;
+	}
 	public String getSexe() {
 		return sexe;
 	}
@@ -103,15 +116,16 @@ public class Beast {
 	public int getOrdinate() {
 		return location.getOrdinate();
 	}
-	
-
+	public Boolean canMove() {
+		return movement;
+	}
 	public Biome getBiome() {
 		return biome;
 	}
 	
 	public String toString() {
-		return ""+this.getLocation().toString()+ "sexe: "+getSexe();
-				}
+		return ""+this.getLocation().toString()+ "sexe: "+getSexe()+" number: "+beastNumber;
+	}
 	
 	public void setDefaultLocation(int beastNumber) {
 		int absciss = Map_Settings.generateRand(1, Map_Settings.MAP_WIDTH);

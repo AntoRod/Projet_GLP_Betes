@@ -7,6 +7,7 @@ import gui.*;
 public class Moving {
 	
 	public Moving() {
+		
 	}
 	
 	
@@ -44,7 +45,9 @@ public class Moving {
 			beastOrientation = Map_Settings.generateRand(1,  4);
 			newLoc = setNewLocation(oldLoc, beastOrientation);
 		}while(!newLoc.isValideLoc() //DO THIS ANALYSE FIRST
-				|| tilesPanel[newLoc.getAbsciss()][newLoc.getOrdinate()].getTile().isObstacle());
+				|| tilesPanel[newLoc.getAbsciss()][newLoc.getOrdinate()].getTile().isObstacle()
+				|| tilesPanel[newLoc.getAbsciss()][newLoc.getOrdinate()].getTile().isFighting()
+				);
 		beastPanel.getBeast().setLocation(newLoc);
 		beastPanel.getBeast().setOrientation(beastOrientation);
 	}

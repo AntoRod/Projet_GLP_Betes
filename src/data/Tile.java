@@ -7,21 +7,29 @@ public class Tile {
 	private boolean obstacleType;
 	private Location location;
 	private Biome biome;
+	private Boolean fightStatut;
 	
 	public Tile() {
 		biome = new Biome();
 		obstacleType = false;
+		fightStatut = false;
 	}
 	public Tile(int biomeNumber) {
 		if (biomeNumber == 1) biome = new Biome(Map_Settings.PlainsName);
 		else if (biomeNumber == 2) biome = new Biome(Map_Settings.DeadName);
 		else if (biomeNumber == 3) biome = new Biome(Map_Settings.MountainName);
 		else if (biomeNumber == 4) biome = new Biome(Map_Settings.DesertName);
+		fightStatut = false;
 	}
 	public Tile(int biomeNumber, Boolean obstacle) {
 		this(biomeNumber);
 		obstacleType = true;
-		}
+		fightStatut = false;
+	}
+	public void setFight(Boolean statut) {
+		fightStatut = statut;
+	}
+	
 	public void setObstacle(boolean variable) {
 		obstacleType = variable;
 	}
@@ -32,6 +40,9 @@ public class Tile {
 		biome.setBiomeType(biomeName);
 	}
 	
+	public Boolean isFighting() {
+		return fightStatut;
+	}
 	public Biome getBiome() {
 		return biome;
 	}

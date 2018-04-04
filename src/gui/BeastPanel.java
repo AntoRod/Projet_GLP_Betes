@@ -39,12 +39,15 @@ public class BeastPanel extends JPanel{
 	}*/
 	
 	public void setBeastImage() {
-		String imagePath = "assets/beasts/";
-		imagePath+=beast.getSexe()+"_";
-		imagePath+=beast.getBiome().getBiomeType()+"_";
-		imagePath+=beast.getOrientation()+".png";
-		beastImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-//		System.out.println(imagePath);
+		if(beast.canMove()) {
+			String imagePath = "assets/beasts/";
+			imagePath+=beast.getSexe()+"_";
+			imagePath+=beast.getBiome().getBiomeType()+"_";
+			imagePath+=beast.getOrientation()+".png";
+			beastImage = Toolkit.getDefaultToolkit().getImage(imagePath);
+	//		System.out.println(imagePath);
+		}
+		else {beastImage = Toolkit.getDefaultToolkit().getImage("assets/images/fight.png");}
 	}
 
 	

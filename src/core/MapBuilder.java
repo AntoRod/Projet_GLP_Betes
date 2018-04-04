@@ -82,6 +82,7 @@ public class MapBuilder extends JComponent{
 			Location loc = new Location(absciss, ordinate);
 			Biome tileBiome = mapPanel.getTile(absciss, ordinate).getBiome();
 			BeastPanel beastPanel = new BeastPanel(new Beast(loc),tileBiome);
+			beastPanel.getBeast().setNumber(i);
 			
 			//beastPanel = new BeastPanel(new Beast(new Location(0,0)),new Biome(Map_Settings.PlainsName));
 			//DELETE LATER: generate a beast at 10,10 location ^
