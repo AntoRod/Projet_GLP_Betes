@@ -44,7 +44,7 @@ public class BeastPanel extends JPanel{
 		imagePath+=beast.getBiome().getBiomeType()+"_";
 		imagePath+=beast.getOrientation()+".png";
 		beastImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-		//System.out.println(imagePath);
+//		System.out.println(imagePath);
 	}
 
 	

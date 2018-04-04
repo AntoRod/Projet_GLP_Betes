@@ -29,10 +29,7 @@ import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
 
-import core.EventBuilder;
-import core.MapBuilder;
-import core.MenuBuilder;
-import core.Moving;
+import core.*;
 
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -47,7 +44,7 @@ public class GraphicalMap3 extends JFrame{
 	private MapPanel mapPanel;
 	private MenuPanel menuPanel;
 	private MapBuilder mapBuilder;
-	private MenuBuilder menuBuilder;
+
 	private JPanel mapJPanel = null;
 	private JPanel menuJPanel = null;
 	private JPanel settingsJPanel = null;
@@ -70,6 +67,31 @@ public class GraphicalMap3 extends JFrame{
 			initMenu();
 			packLayout();
 		} catch(IOException e) {e.getMessage();}
+		/*super(title);
+		try {
+			initMenuComponents();
+			initMapComponents();
+			initMap();
+			//this.setContentPane(mapJPanel);
+			//mapVisible();
+			packLayout();
+			while(true) {
+				
+				movement = new Moving();
+				//for(int i=0;i<Map_Settings.nbBeasts;i++) {
+					//System.out.println(mapPanel.getBeast(i).getLocation());
+				//}
+				
+				
+				Thread.sleep(500);
+				for(int i=0;i<Map_Settings.nbBeasts;i++) {
+					movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1, 4));
+				}
+				this.resetBeastImages();
+				mapPanel = mapBuilder.setBeastImages(mapPanel);
+				
+			}
+		} catch(IOException e) {e.getMessage();}*/
 		
 		
 	}
@@ -111,7 +133,6 @@ public class GraphicalMap3 extends JFrame{
 		mapContent.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		mapContent.setLayout(GUILayout);
 		
-		menuBuilder = new MenuBuilder();
 		menuJPanel = new JPanel();
 		settingsJPanel = new JPanel();
 		mapJPanel = new JPanel();
@@ -122,7 +143,6 @@ public class GraphicalMap3 extends JFrame{
 		//menuJPanel.setBackground(Color.RED);
 		menuJPanel.setLayout(GUILayout);
 		menuJPanel.setPreferredSize(Map_Settings.GUI_DIMENSION);
-		menuBuilder.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		//settingsJPanel.setBackground(Color.GREEN);
 		settingsJPanel.setPreferredSize(Map_Settings.GUI_DIMENSION);
 		settingsJPanel.setLayout(GUILayout);
@@ -289,7 +309,7 @@ public class GraphicalMap3 extends JFrame{
 		int truc = 1000;
 		while(truc>0) {
 			for(int i=0;i<Map_Settings.nbBeasts;i++) {
-				movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1, 4));
+				//movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1, 4));
 			}
 			this.resetBeastImages();
 			mapPanel = mapBuilder.setBeastImages(mapPanel);
@@ -401,11 +421,6 @@ public class GraphicalMap3 extends JFrame{
 		}
 	}
 	
-	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		Image test = Toolkit.getDefaultToolkit().getImage("assets/images/menu.jpg");
-		g.drawImage(test, 0, 0, this);
-	}
-	
+
 	
 }

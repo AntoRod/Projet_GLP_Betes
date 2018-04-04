@@ -32,21 +32,22 @@ public class Map_Settings {
 	public static final Color MountainColor = new Color(224,226,253);
 	public static final Color DesertColor = new Color(205,189,68);
 	//BIOME TYPE PARAMETERS
-	public static final String PlainsName = "Plains";
-	public static final String DeadName = "DeadNature";
-	public static final String MountainName = "Mountain";
-	public static final String DesertName = "Desert";
+	public static final String PlainsName = "plains";
+	public static final String DeadName = "dead";
+	public static final String MountainName = "snow";
+	public static final String DesertName = "desert";
 	
 	//ALL BEASTS PARAMETERS
 	public static final String maleGender = "male";
 	public static final String femaleGender = "female";
 	public static final int BEAST_PERCENT = 5;
-	public static int nbBeasts = 1;//(BEAST_PERCENT*MAP_WIDTH*MAP_WIDTH)/100;
+	public static int nbBeasts = 45;//(BEAST_PERCENT*MAP_WIDTH*MAP_WIDTH)/100;
 
-	public static final String  Down = "down";
-	public static final String Up = "up";
-	public static final String Left = "left";
-	public static final String Right= "right";
+	public static final String RIGHT= "right";	//direction int = 1
+	public static final String  DOWN = "down";	//direction int = 2
+	public static final String TOP = "top";		//direction int = 3
+	public static final String LEFT = "left";	//direction int = 4
+
 	
 	//ALL GENERAL FUNCTIONS
 	

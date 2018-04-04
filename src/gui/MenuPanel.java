@@ -6,7 +6,6 @@ import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 
-import core.MenuBuilder;
 
 public class MenuPanel extends JPanel{
 	

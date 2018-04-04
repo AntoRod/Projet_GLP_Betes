@@ -22,9 +22,7 @@ import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
 
-import core.MapBuilder;
-import core.MenuBuilder;
-import core.Moving;
+import core.*;
 
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
@@ -38,25 +36,45 @@ public class GraphicalMap2 extends JFrame{
 	private MapPanel mapPanel;
 	private MenuPanel menuPanel;
 	private MapBuilder mapBuilder;
-	private MenuBuilder menuBuilder;
 	private JPanel mapJPanel;
 	private Moving movement;
 	
-	public GraphicalMap2() throws InterruptedException {
+	public GraphicalMap2(){
 		this("[ALPHA 0.0.1] Civilization VII");
 	}
 	
-	public GraphicalMap2(String title) throws InterruptedException {
+	public GraphicalMap2(String title){
 		super(title);
-		
 		try {
 			initMap();
+			playGame();
+		} catch(IOException | InterruptedException e) {e.getMessage();}
+		
+	}
+	
+	public void playGame() throws InterruptedException {
+		while(true) {
+			
+			movement = new Moving();
+			/*for(int i=0;i<Map_Settings.nbBeasts;i++) {
+				System.out.println(mapPanel.getBeast(i).getLocation());
+			}*/
 			
 			
-		} catch(IOException e) {e.getMessage();}
+			Thread.sleep(500);
+			for(int i=0;i<Map_Settings.nbBeasts;i++) {
+				//movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1,1));
+				movement.Move(mapPanel.getTilesPanel(), mapPanel.getBeastPanel(i));
+			}
+			
+			this.resetBeastImages();
+			
+		}
 		
 		
 	}
+	
+	
 	
 	public void initMap() throws IOException, InterruptedException {
 		JMenuBar menuBar;
@@ -133,6 +151,21 @@ public class GraphicalMap2 extends JFrame{
 			}
 		}
 		mapContent.add(mapJPanel);
+	}
+	
+	
+	public void resetBeastImages() {
+		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+				mapPanel.getTilePanel(i,  j).setBeastImage(null);
+				repaint();
+			}
+		}
+		for (int h=0;h<Map_Settings.nbBeasts;h++) {
+			mapPanel.getBeastPanel(h).setBeastImage();
+		}
+		
+		mapPanel = mapBuilder.setBeastImages(mapPanel);
 	}
 	
 

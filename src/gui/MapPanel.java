@@ -38,6 +38,9 @@ public class MapPanel {
 	public void setTilePanel(int absciss, int ordinate, int biomeNumber, boolean obstacle) {
 		tilesPanel[absciss][ordinate] = new TilePanel(biomeNumber, obstacle);
 	}
+	public TilePanel[][] getTilesPanel() {
+		return tilesPanel;
+	}
 	
 	public TilePanel getTilePanel(int absciss, int ordinate) {
 		return tilesPanel[absciss][ordinate];

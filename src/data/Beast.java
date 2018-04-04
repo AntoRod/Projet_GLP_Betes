@@ -45,20 +45,18 @@ public class Beast {
         if((number = Map_Settings.generateRand(1, 2))==1) sexe = Map_Settings.femaleGender;
         else sexe = Map_Settings.maleGender;
         number = Map_Settings.generateRand(1, 4);
-        System.out.println(number+("\n"));
         this.setOrientation(number);
         number = Map_Settings.generateRand(1, 4);
         this.setBiome(number);
     }
 	
 	public void setOrientation(int beastOrientation){
-		if (beastOrientation == 1) orientation = "down" ;
-		else if (beastOrientation == 2) orientation =  "top";
-		else if (beastOrientation == 3) orientation = "left";
-		else if (beastOrientation == 4) orientation =  "right";
+		if (beastOrientation == 1) orientation = Map_Settings.RIGHT ;
+		else if (beastOrientation == 2) orientation =  Map_Settings.DOWN;
+		else if (beastOrientation == 3) orientation = Map_Settings.TOP;
+		else if (beastOrientation == 4) orientation =  Map_Settings.LEFT;
 	}
 	public void setLocation(Location loc) {
-		
 		location = loc;
 	}
 	public void setAge(int beastAge) {

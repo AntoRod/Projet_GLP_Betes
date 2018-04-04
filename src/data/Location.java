@@ -41,5 +41,15 @@ public class Location {
 	public String toString(){
 		return "A: "+absciss+" O: "+ordinate+"\n";
 	}
+
+	public boolean isValideLoc() {
+		if(absciss>=0 && absciss<Map_Settings.MAP_WIDTH) {
+			if(ordinate>=0 && ordinate<Map_Settings.MAP_WIDTH) {
+				return true;
+			}
+			else return false;
+		}
+		else return false;
+	}
 	
 }

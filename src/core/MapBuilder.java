@@ -31,26 +31,19 @@ public class MapBuilder extends JComponent{
 		}
 		for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-				
-				if(i<(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2){
-	                //terrain variant number (1->4)
-	                 biomeNumber = 2;
-	                }
-	                else  if(i<(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
-	                     biomeNumber = 1;
-
-	                }
-	                else  if(i>(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
-	                     biomeNumber = 3;
-
-	                }
-	                else  if(i>(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2){
-	                     biomeNumber = 4;
-
-	                }
-				
 				//terrain variant number (1->4)
-			
+				if(i<(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2) {
+					biomeNumber = 2;
+				}
+				else  if(i<(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
+					biomeNumber = 1;
+				}
+				else  if(i>(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
+					biomeNumber = 3;
+				}
+				else  if(i>(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2){
+					biomeNumber = 4;
+				}
 				//obstacle (100/max) percent DEFAULT: 8
 				int obstacle = Map_Settings.generateRand(1, 100);
 				mapPanel.setTilePanel(i, j, biomeNumber);
@@ -89,6 +82,10 @@ public class MapBuilder extends JComponent{
 			Location loc = new Location(absciss, ordinate);
 			Biome tileBiome = mapPanel.getTile(absciss, ordinate).getBiome();
 			BeastPanel beastPanel = new BeastPanel(new Beast(loc),tileBiome);
+			
+			//beastPanel = new BeastPanel(new Beast(new Location(0,0)),new Biome(Map_Settings.PlainsName));
+			//DELETE LATER: generate a beast at 10,10 location ^
+			
 			mapPanel.getBeastPanel().add(beastPanel);
 			//System.out.println(mapPanel.getBeast(i));
 //			System.out.println(tile+" ABSCISS: "+absciss+" ORDINATE: "+ordinate+"\n");

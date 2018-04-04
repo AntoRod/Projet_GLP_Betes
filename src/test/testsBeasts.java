@@ -6,14 +6,10 @@ import gui.GraphicalMap3;
 
 public class testsBeasts {
 	public static void main(String[] args) {
-		try {
-			GraphicalMap3 map = new GraphicalMap3();
-			
-			
-			
+		
+		
+			GraphicalMap2 map = new GraphicalMap2();
 
-		} catch (InterruptedException e) {e.printStackTrace();}
-	
 	
 	}
 }

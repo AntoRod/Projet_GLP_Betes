@@ -21,9 +21,7 @@ import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
 
-import core.MapBuilder;
-import core.MenuBuilder;
-import core.Moving;
+import core.*;
 
 import java.awt.Graphics;
 
@@ -37,7 +35,6 @@ public class GraphicalMap extends JFrame{
 	private MapPanel mapPanel;
 	private MenuPanel menuPanel;
 	private MapBuilder mapBuilder;
-	private MenuBuilder menuBuilder;
 	private Moving movement;
 	
 	public GraphicalMap() throws InterruptedException {
@@ -89,7 +86,6 @@ public class GraphicalMap extends JFrame{
 		/*TOUT ce qui concerne le Container de la map*/
 
 		
-		//initMenuPanel();
 		initMapPanel();	
 		addMapPanel();
 	
@@ -115,13 +111,6 @@ public class GraphicalMap extends JFrame{
 	
 	
 	
-	public void initMenuPanel() {
-		menuPanel = new MenuPanel();
-		menuBuilder = new MenuBuilder();
-		this.setContentPane(menuBuilder);
-		menuBuilder.setPreferredSize(Map_Settings.GUI_DIMENSION);
-		menuBuilder.setBackground(menuPanel.getBackgroundImage());
-	}
 	
 	
 	public void initMapPanel() {

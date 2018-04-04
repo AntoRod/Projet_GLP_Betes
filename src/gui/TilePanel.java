@@ -38,9 +38,10 @@ public class TilePanel extends JPanel{
 	public void setTileImage() {
 		Image image = null;
 		String imagePath = "assets/tiles/";
-		int imageNumber = Map_Settings.generateRand(1,3);
+		//generate number of variants (1-8)
+		int imageNumber = Map_Settings.generateRand(1,8);
 		imagePath+=tile.getBiome().getBiomeType();
-		if(tile.isObstacle()) imagePath+="_Obstacle";
+		if(tile.isObstacle()) imagePath+="_obstacle";
 		imagePath+="_"+imageNumber+".jpg";
 		image = Toolkit.getDefaultToolkit().getImage(imagePath);
 		//System.out.println(imagePath+"\n");
@@ -65,10 +66,5 @@ public class TilePanel extends JPanel{
 	
 	public void resetBeastImage() {
 		beastImage = null;
-	}
-
-	
-	
-	
-
+	}	
 }
