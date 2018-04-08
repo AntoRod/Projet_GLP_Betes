@@ -17,7 +17,7 @@ public class Biome {
 		this.biomeType = biomeType;
 		if(biomeType.equals(Map_Settings.PlainsName)) biomeColor = Map_Settings.PlainsColor;
 		else if(biomeType.equals(Map_Settings.DeadName)) biomeColor = Map_Settings.DeadColor;
-		else if(biomeType.equals(Map_Settings.MountainName)) biomeColor = Map_Settings.MountainColor;
+		else if(biomeType.equals(Map_Settings.SnowName)) biomeColor = Map_Settings.SnowColor;
 		else if(biomeType.equals(Map_Settings.DesertName)) biomeColor = Map_Settings.DesertColor;
 	
 	}
@@ -25,7 +25,7 @@ public class Biome {
 	public Biome(int biomeNumber) {
 		if (biomeNumber == 1) this.setBiomeType(Map_Settings.PlainsName);
 		else if (biomeNumber == 2) this.setBiomeType(Map_Settings.DeadName);
-		else if (biomeNumber == 3) this.setBiomeType(Map_Settings.MountainName);
+		else if (biomeNumber == 3) this.setBiomeType(Map_Settings.SnowName);
 		else if (biomeNumber == 4) this.setBiomeType(Map_Settings.DesertName);
 	}
 	

@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -8,16 +9,25 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import com.sun.glass.events.KeyEvent;
@@ -25,6 +35,7 @@ import com.sun.glass.events.KeyEvent;
 import core.*;
 
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import data.*;
@@ -34,17 +45,28 @@ public class GraphicalMap2 extends JFrame{
 	
 	private Container mapContent = null;
 	private MapPanel mapPanel;
-	private MenuPanel menuPanel;
 	private MapBuilder mapBuilder;
 	private JPanel mapJPanel;
+	private JPanel mapInfos;
 	private Moving movement;
 	private Fighting fight;
+	private Analyze analyzing = new Analyze();
+	
+	private JLabel tileLocation;
+	private JTextArea beastInformations;
+	private int selectedAbsciss;
+	private int selectedOrdinate;
+	
+	private Boolean pausedGame;
+	private JButton pause;
+	private JButton play;
 	
 	public GraphicalMap2(){
 		this("[ALPHA 0.0.1] Civilization VII");
 	}
 	
 	public GraphicalMap2(String title){
+		
 		super(title);
 		try {
 			initMap();
@@ -54,52 +76,46 @@ public class GraphicalMap2 extends JFrame{
 	}
 	
 	public void playGame() throws InterruptedException {
-		while(true) {
-			
-			movement = new Moving();
-			fight = new Fighting();
-			/*for(int i=0;i<Map_Settings.nbBeasts;i++) {
-				System.out.println(mapPanel.getBeast(i).getLocation());
-			}*/
-			Thread.sleep(100);
-			for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
-				for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-					int beastPerTile = fight.analyseTile(mapPanel.getTile(i,  j), mapPanel.getBeastPanel());
-					if(beastPerTile>=2) {
-						Image fightImage = Toolkit.getDefaultToolkit().getImage("assets/images/fight.png");
-						mapPanel.getTilePanel(i,  j).setBeastImage(fightImage);
-						resetBeastImages();
-//						System.out.println("Case: "+mapPanel.getTile(i,  j).getLocation()+" nombre de Betes: "+beastPerTile);
+		movement = new Moving();
+		fight = new Fighting();
+		while(Map_Settings.SIMULATION_TURNS>0) {
+			Thread.sleep(Map_Settings.GAME_PAUSE);
+			if(pausedGame == false) {
+				if(selectedAbsciss!=-1 && selectedOrdinate!=-1) {
+					this.actualizeField(mapPanel.getTilePanel(selectedAbsciss,selectedOrdinate), mapPanel.getBeastPanel());
+				}
+				for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+					for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+						int beastPerTile = fight.analyseTile(mapPanel.getTilePanel(i,  j), mapPanel.getBeastPanel());
+						if(beastPerTile>=2) {
+							Image fightImage = Toolkit.getDefaultToolkit().getImage("assets/images/fight.png");
+							mapPanel.getTilePanel(i,  j).setBeastImage(fightImage);
+	//							System.out.println("Case: "+mapPanel.getTile(i,  j).getLocation()+" nombre de Betes: "+beastPerTile);
+						}
 					}
 				}
-			}
-			
-			
-			for(int i=0;i<Map_Settings.nbBeasts;i++) {
-				//movement.Move(mapPanel.getBeast(i), Map_Settings.generateRand(1,1));
-				if(mapPanel.getBeast(i).canMove()) {
-					//System.out.println("Number:"+mapPanel.getBeast(i)+" "+mapPanel.getBeast(i).canMove()+"\n");
-					movement.Move(mapPanel.getTilesPanel(), mapPanel.getBeastPanel(i));
+				
+				
+				
+				for(int i=0;i<Map_Settings.nbBeasts;i++) {
+					if(mapPanel.getBeast(i).canMove()) {
+						//System.out.println("Number:"+mapPanel.getBeast(i)+" "+mapPanel.getBeast(i).canMove()+"\n");
+						movement.Move(mapPanel.getTilesPanel(), mapPanel.getBeastPanel(i));
+					}
+				
 				}
-			
+				
+				this.resetBeastImages();
+				
 			}
-			
-			this.resetBeastImages();
-			
+			Map_Settings.decrementTurns();
 		}
-		
-		
 	}
 	
 	
 	
 	public void initMap() throws IOException, InterruptedException {
-		JMenuBar menuBar;
-		JMenu menu, submenu;
-		JMenuItem menuItem;
-		JRadioButtonMenuItem rbMenuItem;
-		JCheckBoxMenuItem cbMenuItem;
-		
+
 		GridBagLayout GUILayout = new GridBagLayout();
 		GridLayout MapLayout = new GridLayout(Map_Settings.MAP_WIDTH, Map_Settings.MAP_LENGTH);
 		
@@ -114,18 +130,10 @@ public class GraphicalMap2 extends JFrame{
 		
 		initMapPanel();
 		addMapPanel();
-		
-		
-		menuBar = new JMenuBar();
-		menu = new JMenu("test menu");
-		menu.getAccessibleContext().setAccessibleDescription("description");
-		menuBar.add(menu);
-		menuItem = new JMenuItem("A text-only menu item",KeyEvent.VK_T);
-		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
-		menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
-		menu.add(menuItem);
-		
-		this.setJMenuBar(menuBar);
+		initMapInfos();
+		selectedAbsciss = -1;
+		selectedOrdinate = -1;
+		pausedGame = true;
 		
 		this.pack();
 		this.setVisible(true);
@@ -139,7 +147,7 @@ public class GraphicalMap2 extends JFrame{
 	
 	
 	public void initMapPanel() {
-		this.setContentPane(this.getContentPane());
+		//this.setContentPane(this.getContentPane());
 		mapBuilder = new MapBuilder(mapPanel);
 		mapPanel = new MapPanel();
 		//setRandomMap(width of the map, length)
@@ -147,13 +155,9 @@ public class GraphicalMap2 extends JFrame{
 		mapPanel = mapBuilder.setRandomBeasts(mapPanel);
 		mapPanel = mapBuilder.setTileImages(mapPanel);
 		for (int i=0;i<Map_Settings.nbBeasts;i++) {
-			mapPanel.getBeastPanel().get(i).setBeastImage();
+			if(!mapPanel.getBeast(i).isDead()) mapPanel.getBeastPanel().get(i).setBeastImage();
+			
 		}
-		/*try {
-			mapPanel = mapBuilder.setBeastImages2(mapPanel);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}*/
 		mapPanel = mapBuilder.setBeastImages(mapPanel);
 		
 		
@@ -165,11 +169,94 @@ public class GraphicalMap2 extends JFrame{
 			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 				//mapContent.add(mapPanel.getTilePanel(i,j));
 				mapJPanel.add(mapPanel.getTilePanel(i,  j), i*Map_Settings.MAP_WIDTH+j);
+				mapJPanel.getComponent(i*Map_Settings.MAP_WIDTH+j).addMouseListener(new seeDetails(mapPanel.getTilePanel(i,  j), mapPanel.getBeastPanel()));
 			}
 		}
 		mapContent.add(mapJPanel);
 	}
 	
+	
+	public void initMapInfos() {
+		mapInfos = new JPanel();
+		mapInfos.setPreferredSize(new Dimension(Map_Settings.MAPINFOS_WIDTH, Map_Settings.MAPINFOS_LENGTH));
+		GridBagLayout mapInfosLayout = new GridBagLayout();
+		GridBagConstraints mapInfosConstrains = new GridBagConstraints();
+		mapInfosConstrains.gridwidth = GridBagConstraints.REMAINDER;
+		mapInfosConstrains.gridheight = 1;
+		
+		FlowLayout infosLayout = new FlowLayout();
+		JPanel tileInfos = new JPanel();
+		tileInfos.setLayout(infosLayout);
+		
+		JLabel tileInfo = new JLabel("Tile Informations: ");
+		tileLocation = new JLabel("No tile selected");
+		tileInfos.add(tileInfo);
+		tileInfos.add(tileLocation);
+		
+		JPanel beastInfos = new JPanel();
+		beastInfos.setLayout(infosLayout);
+		beastInformations = new JTextArea("No beast selected");
+		beastInformations.setEditable(false);
+		beastInformations.setPreferredSize(new Dimension(110,20));
+		
+		ImageIcon slowIcon = new ImageIcon("assets/images/slowButton.png");
+		ImageIcon speedIcon = new ImageIcon("assets/images/speedButton.png");
+		ImageIcon exitIcon = new ImageIcon("assets/images/exitButton.png");
+		ImageIcon pauseIcon = new ImageIcon("assets/images/pauseButton.png");
+		ImageIcon playIcon = new ImageIcon("assets/images/playButton.png");
+		
+		JPanel gameButtons = new JPanel();
+		gameButtons.setLayout(infosLayout);
+		
+		JButton slow = new JButton(slowIcon);
+		slow.addActionListener(new slowGame());
+		slow.setContentAreaFilled(false);
+		slow.setBorderPainted(false);
+		slow.setBorder(BorderFactory.createEmptyBorder());
+		
+		JButton speed = new JButton(speedIcon);
+		speed.addActionListener(new speedGame());
+		speed.setContentAreaFilled(false);
+		speed.setBorderPainted(false);
+		speed.setBorder(BorderFactory.createEmptyBorder());
+		
+		pause = new JButton(pauseIcon);
+		pause.addActionListener(new pauseGame());
+		pause.setContentAreaFilled(false);
+		pause.setBorderPainted(false);
+		pause.setBorder(BorderFactory.createEmptyBorder());
+		pause.setVisible(false);
+		
+		play = new JButton(playIcon);
+		play.addActionListener(new pauseGame());
+		play.setContentAreaFilled(false);
+		play.setBorderPainted(false);
+		play.setBorder(BorderFactory.createEmptyBorder());
+		
+		JButton exit = new JButton(exitIcon);
+		exit.addActionListener(new Exit());
+		exit.setContentAreaFilled(false);
+		exit.setBorderPainted(false);
+		exit.setBorder(BorderFactory.createEmptyBorder());
+		
+		
+		gameButtons.add(slow);
+		gameButtons.add(pause);
+		gameButtons.add(play);
+		gameButtons.add(speed);
+		gameButtons.add(exit);
+		
+		//ADD THE COMPONENTS
+		beastInfos.add(beastInformations);
+		mapInfos.setBackground(Color.BLUE);
+		mapInfos.setLayout(mapInfosLayout);
+		mapInfos.add(gameButtons, mapInfosConstrains);
+		mapInfos.add(tileInfos, mapInfosConstrains);
+		mapInfos.add(beastInfos, mapInfosConstrains);
+
+		mapContent.add(mapInfos);
+		
+	}
 	
 	public void resetBeastImages() {
 		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
@@ -181,9 +268,120 @@ public class GraphicalMap2 extends JFrame{
 		for (int h=0;h<Map_Settings.nbBeasts;h++) {
 			mapPanel.getBeastPanel(h).setBeastImage();
 		}
-		
 		mapPanel = mapBuilder.setBeastImages(mapPanel);
 	}
 	
+	
+	
+	class slowGame implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Map_Settings.slowTime();
+		}
+	}
+	class speedGame implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			Map_Settings.speedTime();
+		}
+	}
+	
+	class pauseGame implements ActionListener {		
+		public void actionPerformed(ActionEvent e) {
+			if(pausedGame == true) {
+				pausedGame = false;
+				play.setVisible(false);
+				pause.setVisible(true);
+			}
+			else {
+				pausedGame = true;
+				play.setVisible(true);
+				pause.setVisible(false);
+			}
+			
+			
+		}
+	}
+	
+	class Exit implements ActionListener {
+		public void actionPerformed (ActionEvent e) {
+			System.exit(0);
+		}
+	}
+	
+	
+	class seeDetails implements MouseListener {
+
+		TilePanel tilePanel;
+		ArrayList<BeastPanel> beastsPanel;
+		public seeDetails(TilePanel tPanel, ArrayList<BeastPanel> bPanel) {
+			tilePanel = tPanel;
+			beastsPanel = bPanel;
+		}
+		
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount() == 2) {
+			    selectedAbsciss = tilePanel.getTile().getAbsciss();
+				selectedOrdinate = tilePanel.getTile().getOrdinate();
+			    actualizeField(tilePanel, beastsPanel);
+			  }
+			else if(e.getClickCount()<2) {
+				tileLocation.setText("No tile selected");
+				beastInformations.setText("No beast selected");
+				beastInformations.setPreferredSize(new Dimension(110,20));
+				selectedAbsciss = -1;
+				selectedOrdinate = -1;
+			}
+		}
+
+		public void mouseEntered(MouseEvent e) {
+		}
+		public void mouseExited(MouseEvent e) {
+		}
+		public void mousePressed(MouseEvent e) {
+		}
+		public void mouseReleased(MouseEvent e) {
+		}
+	}
+	
+	
+	public void actualizeField(TilePanel tilePanel, ArrayList<BeastPanel> beastsPanel) {
+		tileLocation.setText("X: "+tilePanel.getTile().getAbsciss()+" Y "
+				+tilePanel.getTile().getOrdinate()+" Obstacle: "
+				+tilePanel.getTile().isObstacle()+" Fighting: "
+				+tilePanel.getTile().isFighting());
+		int beastNumber;
+		if(tilePanel.getTile().isFighting()) {
+			int firstNumber = tilePanel.getFirst();
+			int secondNumber = tilePanel.getSecond();
+			Beast firstBeast = beastsPanel.get(firstNumber).getBeast();
+			Beast secondBeast = beastsPanel.get(secondNumber).getBeast();
+			beastInformations.setPreferredSize(new Dimension(350,80));
+			beastInformations.setText("First Beast informations:	|  Second Beast informations: "
+			+ "\n"+firstBeast.getStats().getAttack() + "	|  "+ secondBeast.getStats().getAttack()
+			+ "\n"+ firstBeast.getStats().getDefense() + "	|  "+ secondBeast.getStats().getDefense()
+			+ "\n"+ firstBeast.getStats().stringLivePoints() + "	|  "+ secondBeast.getStats().stringLivePoints()
+			+ "\n"+ firstBeast.getStats().stringStamina() + "	|  "+ secondBeast.getStats().stringStamina()
+			);
+		}
+		else if((beastNumber=tilePanel.containsBeast(beastsPanel))>0) {
+			Beast beast = beastsPanel.get(beastNumber).getBeast();
+			beastInformations.setPreferredSize(new Dimension(160,80));
+			beastInformations.setText("Beast Informations: "
+			+"\n"+beast.getStats().getAttack()
+			+"\n"+beast.getStats().getDefense()
+			+"\n"+beast.getStats().stringLivePoints()
+			+"\n"+beast.getStats().stringStamina()
+			);
+		}
+		else {
+			beastInformations.setText("No beast selected");
+			beastInformations.setPreferredSize(new Dimension(110,20));
+		}
+	}
+	
+	
+	
+	
+	
 
 }
+

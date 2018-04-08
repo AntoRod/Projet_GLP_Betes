@@ -38,6 +38,7 @@ public class Moving {
 		Location oldLoc = new Location(absciss, ordinate);
 		Location newLoc = new Location(absciss, ordinate);
 		int beastOrientation;
+		
 		//IMPORTANT: if the new location is not a valide one (out of border)
 		//redo the analyse, if it's a valide one, but an obstacle, redo it too
 		//it's important to analyse the validity first to not cause an ArrayBoundException
@@ -50,6 +51,7 @@ public class Moving {
 				);
 		beastPanel.getBeast().setLocation(newLoc);
 		beastPanel.getBeast().setOrientation(beastOrientation);
+		beastPanel.getBeast().removeStamina(1);
 	}
 	
 	public Location setNewLocation(Location loc, int direction) {

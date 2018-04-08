@@ -3,6 +3,7 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -16,8 +17,13 @@ public class TilePanel extends JPanel{
 	private Image tileImage = null;
 	private Image beastImage = null;
 	
+	private int firstBeastNumber;
+	private int secondBeastNumber;
+
 	public TilePanel(){
 		tile = new Tile();
+		firstBeastNumber = -1;
+		secondBeastNumber = -1;
 	}
 	public TilePanel(int biomeNumber) {
 		tile = new Tile(biomeNumber);
@@ -34,6 +40,19 @@ public class TilePanel extends JPanel{
 		return tile;
 	}
 
+	public int getFirst() {
+		return firstBeastNumber;
+	}
+	public int getSecond() {
+		return secondBeastNumber;
+	}
+	
+	public void setFirst(int firstNumber) {
+		firstBeastNumber = firstNumber;
+	}
+	public void setSecond(int secondNumber) {
+		secondBeastNumber = secondNumber;
+	}
 	
 	public void setTileImage() {
 		Image image = null;
@@ -42,7 +61,7 @@ public class TilePanel extends JPanel{
 		int imageNumber = Map_Settings.generateRand(1,8);
 		imagePath+=tile.getBiome().getBiomeType();
 		if(tile.isObstacle()) imagePath+="_obstacle";
-		imagePath+="_"+imageNumber+".jpg";
+		imagePath+="_"+imageNumber+".png";
 		image = Toolkit.getDefaultToolkit().getImage(imagePath);
 		//System.out.println(imagePath+"\n");
 		tileImage = image;
@@ -66,5 +85,23 @@ public class TilePanel extends JPanel{
 	
 	public void resetBeastImage() {
 		beastImage = null;
-	}	
+	}
+	
+	public int containsBeast(ArrayList<BeastPanel> beastsPanel) {
+		int absciss = tile.getAbsciss();
+		int ordinate = tile.getOrdinate();
+		for(int i=0;i<Map_Settings.nbBeasts;i++) {
+			int beastAbcsiss = beastsPanel.get(i).getBeast().getAbsciss();
+			int beastOrdinate = beastsPanel.get(i).getBeast().getOrdinate();
+			if(beastAbcsiss==absciss && beastOrdinate==ordinate) {
+				
+				return beastsPanel.get(i).getBeast().getNumber();
+			}
+		}
+		return -1;
+		
+	}
+	
+	
+	
 }

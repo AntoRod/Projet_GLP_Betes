@@ -27,7 +27,6 @@ public class BeastPanel extends JPanel{
 	public BeastPanel(Beast newBeast , Biome newBiome){
 		beast = newBeast;
 		beastImage = null ;
-		beast.setBiome(newBiome);
 	}
 	public void setBeast(Beast beastSet) {
 		beast = beastSet;

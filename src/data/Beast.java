@@ -1,13 +1,9 @@
 package data;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-
 import gui.Map_Settings;
 
 public class Beast {
 
-	private int age;
 	private String sexe;
 	private Stats stats;
 	private Location location;
@@ -15,6 +11,8 @@ public class Beast {
 	private String orientation;
 	private int beastNumber;
 	private Boolean movement;
+	private Boolean deadStatut = false;
+	
 	
 	public Beast () {
 		this.setDefaultBeast();
@@ -28,16 +26,22 @@ public class Beast {
 		this.setRandomBeast();
 		location = loc;
 	}
+	public Beast(Location loc, Biome tileBiome) {
+		this.setRandomBeast(tileBiome);
+		location = loc;
+		biome = tileBiome;
+	}
+	
+	public void setDeath(Boolean death) {
+		deadStatut = death;
+	}
 	
 	public void setNumber(int number) {
 		beastNumber = number;
 	}
 	
 	public void setDefaultBeast() {
-		age = 18;
-		/*int number = MapParameters.generateRand(1,2);
-		if(number ==2) sexe = MapParameters.femaleGender;
-		else */sexe = Map_Settings.maleGender;
+		sexe = Map_Settings.maleGender;
 		stats = new Stats();
 		biome = new Biome(Map_Settings.DesertName);
 		orientation = "down";
@@ -45,16 +49,24 @@ public class Beast {
 	}
 
 	public void setRandomBeast() {
-        age = 18;
-        int number;
-        if((number = Map_Settings.generateRand(1, 2))==1) sexe = Map_Settings.femaleGender;
-        else sexe = Map_Settings.maleGender;
-        number = Map_Settings.generateRand(1, 4);
-        this.setOrientation(number);
-        number = Map_Settings.generateRand(1, 4);
-        this.setBiome(number);
-        movement = true;
-    }
+		int number;
+		if((number = Map_Settings.generateRand(1, 2))==1) sexe = Map_Settings.femaleGender;
+		else sexe = Map_Settings.maleGender;
+		number = Map_Settings.generateRand(1, 4);
+		this.setOrientation(number);
+		number = Map_Settings.generateRand(1, 4);
+		this.setBiome(number);
+		movement = true;
+		deadStatut = false;
+		stats = new Stats();
+	}
+	
+	public void setRandomBeast(Biome tileBiome) {
+		this.setRandomBeast();
+		stats = new Stats(tileBiome);
+	}
+	
+
 	
 	public void setOrientation(int beastOrientation){
 		if (beastOrientation == 1) orientation = Map_Settings.RIGHT ;
@@ -69,9 +81,6 @@ public class Beast {
 	public void setLocation(Location loc) {
 		location = loc;
 	}
-	public void setAge(int beastAge) {
-		age = beastAge;
-	}
 	public void setStats(Stats beastStats) {
 		stats = beastStats;
 	}
@@ -83,7 +92,7 @@ public class Beast {
 	public void setBiome(int biomeNumber){
 		if (biomeNumber == 1) biome = new Biome(Map_Settings.PlainsName);
 		else if (biomeNumber == 2) biome = new Biome(Map_Settings.DeadName);
-		else if (biomeNumber == 3) biome = new Biome(Map_Settings.MountainName);
+		else if (biomeNumber == 3) biome = new Biome(Map_Settings.SnowName);
 		else if (biomeNumber == 4) biome = new Biome(Map_Settings.DesertName);
 	} 
 	
@@ -94,14 +103,16 @@ public class Beast {
 		return orientation ;
 		
 	}
+	
+	public Boolean isDead() {
+		return deadStatut;
+	}
+	
 	public int getNumber() {
 		return beastNumber;
 	}
 	public String getSexe() {
 		return sexe;
-	}
-	public int getAge() {
-		return age ; 
 	}
 	public Stats getStats() {
 		return stats;
@@ -121,6 +132,13 @@ public class Beast {
 	}
 	public Biome getBiome() {
 		return biome;
+	}
+	
+	public void removeStamina(int number) {
+		this.getStats().removeStamina(number);
+	}
+	public void removeLive(Attack attack, Defense defense, Boolean attackBiome, Boolean defenseBiome) {
+		this.getStats().removeLive(attack, defense, attackBiome, defenseBiome);
 	}
 	
 	public String toString() {

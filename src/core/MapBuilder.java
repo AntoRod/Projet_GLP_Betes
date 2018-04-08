@@ -15,13 +15,16 @@ import gui.MapPanel;
 import gui.Map_Settings;
 import gui.TilePanel;
 
-public class MapBuilder extends JComponent{
+public class MapBuilder{
 	
 	MapPanel panel;
 	Image tile = null;
 	int biomeNumber = Map_Settings.generateRand(1,1);
 	public MapBuilder(MapPanel mapPanel) {
 		panel = mapPanel;
+	}
+	public MapBuilder() {
+		
 	}
 	
 	//SET A MAP PANEL WITH RANDOM BIOMES
@@ -81,12 +84,8 @@ public class MapBuilder extends JComponent{
 			int ordinate = tile%Map_Settings.MAP_LENGTH;
 			Location loc = new Location(absciss, ordinate);
 			Biome tileBiome = mapPanel.getTile(absciss, ordinate).getBiome();
-			BeastPanel beastPanel = new BeastPanel(new Beast(loc),tileBiome);
+			BeastPanel beastPanel = new BeastPanel(new Beast(loc, tileBiome));
 			beastPanel.getBeast().setNumber(i);
-			
-			//beastPanel = new BeastPanel(new Beast(new Location(0,0)),new Biome(Map_Settings.PlainsName));
-			//DELETE LATER: generate a beast at 10,10 location ^
-			
 			mapPanel.getBeastPanel().add(beastPanel);
 			//System.out.println(mapPanel.getBeast(i));
 //			System.out.println(tile+" ABSCISS: "+absciss+" ORDINATE: "+ordinate+"\n");
@@ -98,7 +97,6 @@ public class MapBuilder extends JComponent{
 		if(mapPanel.equals(null)) {
 			this.setRandomBeasts(mapPanel);
 		}
-		int truc = 0;
 		for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 				for(int h=0;h<Map_Settings.nbBeasts;h++) {
@@ -107,86 +105,10 @@ public class MapBuilder extends JComponent{
 					if(absciss==mapPanel.getTile(i, j).getAbsciss() && ordinate==mapPanel.getTile(i, j).getOrdinate()) {
 						Image beastImage = mapPanel.getBeastPanel().get(h).getBeastImage();
 						mapPanel.getTilePanel(i, j).setBeastImage(beastImage);
-						//System.out.println("SETTED "+truc+": "+mapPanel.getTile(absciss, ordinate).getLocation());
-						//truc++;
 					}
 				}
 			}
 		}
-		
-		
 		return mapPanel;
 	}
-	
-	
-		
-		
-		
-	
-/*	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
-			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-				//panel = this.setRandomBeasts(panel);
-				panel = this.setRandomMap(panel);
-				tile = analyzeTile(panel.getTile(i,  j));
-				g.drawImage(tile, 0, 0, this);
-				System.out.println("CECI EST UN TEST\n");
-			}
-		}
-	}
-	
-	
-	public Image analyzeTile(Tile tile) {
-		Image tileImage = null;
-		String imagePath = "assets/tiles/";
-		int imageNumber = Map_Settings.generateRand(1,1);
-		imagePath+=tile.getBiome().getBiomeType();
-		if(tile.isObstacle()) imagePath+="_Obstacle";
-		imagePath+="_"+imageNumber+".jpg";
-		tileImage = Toolkit.getDefaultToolkit().getImage(imagePath);
-		System.out.println(imagePath+"\n");
-		return tileImage;
-	}*/
-	
-	/*public MapPanel setBeastImages2(MapPanel mapPanel) {
-		for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
-			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-				int absciss = mapPanel.getTile(i, j).getAbsciss();
-				int ordinate = mapPanel.getTile(i, j).getOrdinate();
-				int beastNumber = 0;
-				while(!(absciss==mapPanel.getBeast(beastNumber).getAbsciss() && ordinate==mapPanel.getBeast(beastNumber).getOrdinate())) {
-					beastNumber++;
-					if((absciss==mapPanel.getBeast(beastNumber).getAbsciss() && ordinate==mapPanel.getBeast(beastNumber).getOrdinate())) {
-						Image beastImage = mapPanel.getBeastPanel().get(beastNumber).getBeastImage();
-						mapPanel.getTilePanel(i, j).setBeastImage(beastImage);
-						beastNumber = 0;
-					}
-					
-				}
-				
-			}
-		}
-		
-		
-		
-		return mapPanel;
-	}*/
-	
-	
-	
-
-	/*for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
-			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-				for(int h=0;h<Map_Settings.nbBeasts;h++) {
-					if(mapPanel.getTile(i, j).getAbsciss()==mapPanel.getBeast(h).getAbsciss()) {
-						if(mapPanel.getTile(i, j).getOrdinate()==mapPanel.getBeast(h).getOrdinate()) {
-							Location loc = new Location(10,10);
-							
-							System.out.println("test numéro "+h+"\n");
-							
-						}
-					}
-				}
-			}*/
 }

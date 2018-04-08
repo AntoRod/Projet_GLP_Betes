@@ -17,7 +17,7 @@ public class Tile {
 	public Tile(int biomeNumber) {
 		if (biomeNumber == 1) biome = new Biome(Map_Settings.PlainsName);
 		else if (biomeNumber == 2) biome = new Biome(Map_Settings.DeadName);
-		else if (biomeNumber == 3) biome = new Biome(Map_Settings.MountainName);
+		else if (biomeNumber == 3) biome = new Biome(Map_Settings.SnowName);
 		else if (biomeNumber == 4) biome = new Biome(Map_Settings.DesertName);
 		fightStatut = false;
 	}
