@@ -10,13 +10,15 @@ import data.*;
 public class Fighting {
 	
 	//the beast number of the beast that will fight
-	private int firstBeast;
-	private int secondBeast;
+	//private int firstBeast;
+	//private int secondBeast;
 	
 	public Fighting() {
 	}
 	
-
+	//MOVED TO TREATMENT FOR NOW
+	
+/*
 	
 	public int analyseTile(TilePanel tilePanel, ArrayList<BeastPanel> beastPanel) {
 		int beastPerTile = 0;
@@ -49,7 +51,11 @@ public class Fighting {
 					beastPanel.get(i).getBeast().setMove(false);
 				}
 			}
-			if(!tilePanel.getTile().isFighting()) tilePanel.getTile().setFight(true);
+			if(!tilePanel.getTile().isFighting()) {
+				tilePanel.getTile().setFight(true);
+				beastPanel.get(firstBeast).getBeast().setFight(true);
+				beastPanel.get(secondBeast).getBeast().setFight(true);
+			}
 			//THIS METHOD DO A TURN OF FIGHT (beast, beast, tile)
 			turnFight(beastPanel.get(firstBeast).getBeast(), beastPanel.get(secondBeast).getBeast(), tilePanel.getTile());
 		}
@@ -95,15 +101,17 @@ public class Fighting {
 		
 		if(beastOne.getStats().getlivePoints()<0) {
 			beastOne.setDeath(true);
+			beastTwo.setFight(false);
 			beastTwo.setMove(true);
 			tile.setFight(false);
 		}
 		if(beastTwo.getStats().getlivePoints()<0) {
 			beastTwo.setDeath(true);
+			beastOne.setFight(false);
 			beastOne.setMove(true);
 			tile.setFight(false);
 		}
 	}
 
-
+*/
 }

@@ -54,16 +54,29 @@ public class TilePanel extends JPanel{
 		secondBeastNumber = secondNumber;
 	}
 	
+	public void setTileImage(Image image) {
+		tileImage = image;
+	}
+	
+	
 	public void setTileImage() {
 		Image image = null;
 		String imagePath = "assets/tiles/";
 		//generate number of variants (1-8)
 		int imageNumber = Map_Settings.generateRand(1,8);
 		imagePath+=tile.getBiome().getBiomeType();
-		if(tile.isObstacle()) imagePath+="_obstacle";
-		imagePath+="_"+imageNumber+".png";
+		if(tile.containsFood()) {
+			imagePath+="_food.png";
+		}
+		
+		else{
+			if(tile.isObstacle()) imagePath+="_obstacle";
+			imagePath+="_"+imageNumber+".png";
+		}
+		
+		
 		image = Toolkit.getDefaultToolkit().getImage(imagePath);
-		//System.out.println(imagePath+"\n");
+//		System.out.println(imagePath+"\n");
 		tileImage = image;
 	}
 	

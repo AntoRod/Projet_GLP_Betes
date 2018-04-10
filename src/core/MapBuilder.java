@@ -6,14 +6,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JComponent;
 
-import data.Beast;
-import data.Biome;
-import data.Location;
-import data.Tile;
-import gui.BeastPanel;
-import gui.MapPanel;
-import gui.Map_Settings;
-import gui.TilePanel;
+import data.*;
+import gui.*;
 
 public class MapBuilder{
 	
@@ -35,7 +29,7 @@ public class MapBuilder{
 		for(int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for(int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 				//terrain variant number (1->4)
-				if(i<(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2) {
+				/*if(i<(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2) {
 					biomeNumber = 2;
 				}
 				else  if(i<(Map_Settings.MAP_WIDTH)/2 && j>(Map_Settings.MAP_WIDTH)/2){
@@ -46,13 +40,26 @@ public class MapBuilder{
 				}
 				else  if(i>(Map_Settings.MAP_WIDTH)/2 && j<(Map_Settings.MAP_WIDTH)/2){
 					biomeNumber = 4;
-				}
+				}*/
+				biomeNumber = Map_Settings.generateRand(1,  4);
+				
 				//obstacle (100/max) percent DEFAULT: 8
-				int obstacle = Map_Settings.generateRand(1, 100);
+				int chances = 30;
+				int obstacle = Map_Settings.generateRand(1, chances);
 				mapPanel.setTilePanel(i, j, biomeNumber);
 				mapPanel.getTile(i, j).setLocation(new Location(i, j));
 				//mapPanel.setTilePanel(i, j, biomeNumber, true);
-				if (obstacle == 1) mapPanel.getTile(i, j).setObstacle(true);
+				
+				
+				
+				
+				if (obstacle <=chances && obstacle> 29*chances/30) {
+					mapPanel.getTile(i, j).setFood(true);
+					Food food = new Food(i, j);
+					mapPanel.getFoodPanel().add(food);
+				}
+				else if(obstacle<=29*chances/30 && obstacle> 24*chances/30) mapPanel.getTile(i,  j).setObstacle(true);
+//				System.out.println("Chances: "+chances+" Obstacle: "+obstacle+ " tileObstacle: "+mapPanel.getTile(i,  j).isObstacle()+" tileFood: "+mapPanel.getTile(i,  j).containsFood()+"\n");
 				//System.out.println(mapPanel.getTile(i, j));
 			}
 		}
@@ -71,6 +78,8 @@ public class MapBuilder{
 		
 		return mapPanel;
 	}
+
+	
 	
 	
 	public MapPanel setRandomBeasts(MapPanel mapPanel) {
@@ -103,6 +112,7 @@ public class MapBuilder{
 					int absciss = mapPanel.getBeast(h).getAbsciss();
 					int ordinate = mapPanel.getBeast(h).getOrdinate();
 					if(absciss==mapPanel.getTile(i, j).getAbsciss() && ordinate==mapPanel.getTile(i, j).getOrdinate()) {
+						
 						Image beastImage = mapPanel.getBeastPanel().get(h).getBeastImage();
 						mapPanel.getTilePanel(i, j).setBeastImage(beastImage);
 					}

@@ -12,28 +12,47 @@ public class Beast {
 	private int beastNumber;
 	private Boolean movement;
 	private Boolean deadStatut = false;
+	private Boolean fightStatut;
+	private Boolean copulationStatut;
 	
 	
 	public Beast () {
 		this.setDefaultBeast();
+		Map_Settings.incrementTotalBeasts();
 	}
 
 	public Beast (int biomeNumber) {
 		this.setBiome(biomeNumber);
+		Map_Settings.incrementTotalBeasts();
 	}
 	
 	public Beast(Location loc) {
 		this.setRandomBeast();
 		location = loc;
+		Map_Settings.incrementTotalBeasts();
 	}
 	public Beast(Location loc, Biome tileBiome) {
 		this.setRandomBeast(tileBiome);
 		location = loc;
-		biome = tileBiome;
+		Map_Settings.incrementTotalBeasts();
 	}
 	
+	//EN COURS DE TRAITEMENT
+	public Beast(Beast beastOne, Beast beastTwo) {
+		Boolean oneBiome = Map_Settings.randomBoolean();
+		if(oneBiome) this.setRandomBeast(beastOne.getBiome());
+		else this.setRandomBeast(beastTwo.getBiome());
+		location = beastOne.getLocation();
+		Map_Settings.incrementTotalBeasts();
+	}
+	
+	
 	public void setDeath(Boolean death) {
+		if(death==true) {
+			location = new Location(-1,-1);
+		}
 		deadStatut = death;
+		Map_Settings.decrementTotalBeasts();
 	}
 	
 	public void setNumber(int number) {
@@ -58,11 +77,14 @@ public class Beast {
 		this.setBiome(number);
 		movement = true;
 		deadStatut = false;
+		fightStatut = false;
+		copulationStatut = false;
 		stats = new Stats();
 	}
 	
 	public void setRandomBeast(Biome tileBiome) {
 		this.setRandomBeast();
+		biome = tileBiome;
 		stats = new Stats(tileBiome);
 	}
 	
@@ -150,6 +172,22 @@ public class Beast {
 		int ordinate = Map_Settings.generateRand(1, Map_Settings.MAP_LENGTH);
 		//System.out.println("Test: A: "+absciss+" B: "+ordinate);
 		location = new Location(absciss, ordinate);
+	}
+
+	public Boolean isFighting() {
+		return fightStatut;
+	}
+
+	public void setFight(Boolean fightStatut) {
+		this.fightStatut = fightStatut;
+	}
+
+	public Boolean isCopulating() {
+		return copulationStatut;
+	}
+
+	public void setCopulation(Boolean copulationStatut) {
+		this.copulationStatut = copulationStatut;
 	}
 	
 }

@@ -9,27 +9,27 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import data.Beast;
-import data.Biome;
-import data.Location;
-import data.Tile;
+import data.*;
 
 public class MapPanel {
 	
 	private TilePanel[][] tilesPanel;
 	private ArrayList<BeastPanel> beastPanel;
+	private ArrayList<Food> foodPanel;
 	
 	//default map width/length
 	public MapPanel() {
 		tilesPanel = new TilePanel[Map_Settings.MAP_WIDTH][Map_Settings.MAP_LENGTH];
 		beastPanel = new ArrayList<BeastPanel>();
+		setFoodPanel(new ArrayList<Food>());
+		
 	}
 	
 	//choose the map width/length
 	public MapPanel(int width, int length) {
 		tilesPanel = new TilePanel[width][length];
 		beastPanel = new ArrayList<BeastPanel>();
-		
+		setFoodPanel(new ArrayList<Food>());
 	}
 	
 	public void setTilePanel(int absciss, int ordinate, int biomeNumber) {
@@ -56,6 +56,14 @@ public class MapPanel {
 	}
 	public Beast getBeast(int beastNumber) {
 		return beastPanel.get(beastNumber).getBeast();
+	}
+
+	public ArrayList<Food> getFoodPanel() {
+		return foodPanel;
+	}
+
+	public void setFoodPanel(ArrayList<Food> foodPanel) {
+		this.foodPanel = foodPanel;
 	}
 	
 	

@@ -56,7 +56,8 @@ public class Map_Settings {
 	
 	//DEFAULT GAME PAUSE: 1000, TIME OF THE SPEELING THREAD METHOD
 	public static int GAME_PAUSE = 1000;
-	public static int SIMULATION_TURNS = 1000;
+	public static int SIMULATION_TURNS = 100;
+	public static int TOTAL_BEASTS = 0;
 	
 	
 	//ALL GENERAL FUNCTIONS
@@ -72,13 +73,25 @@ public class Map_Settings {
 		return min + rand.nextFloat() * (max - min);
 	}
 	
+	public static Boolean randomBoolean() {
+		if(generateRand(0,1) == 0) return true;
+		else return false;
+	}
+	
+	public static void incrementTotalBeasts() {
+		TOTAL_BEASTS++;
+	}
+	public static void decrementTotalBeasts() {
+		TOTAL_BEASTS--;
+	}
+	
 	public static void slowTime() {
 		if(!(GAME_PAUSE >= 4000)) {
 			GAME_PAUSE*=2;
 		}
 	}
 	public static void speedTime() {
-		if(!(GAME_PAUSE <= 125)) {
+		if(!(GAME_PAUSE <= /*125*/25)) {
 			GAME_PAUSE/=2;
 		}
 	}

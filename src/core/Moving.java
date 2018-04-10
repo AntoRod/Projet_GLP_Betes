@@ -48,7 +48,7 @@ public class Moving {
 		}while(!newLoc.isValideLoc() //DO THIS ANALYSE FIRST
 				|| tilesPanel[newLoc.getAbsciss()][newLoc.getOrdinate()].getTile().isObstacle()
 				|| tilesPanel[newLoc.getAbsciss()][newLoc.getOrdinate()].getTile().isFighting()
-				);
+				|| tilesPanel[newLoc.getAbsciss()][newLoc.getOrdinate()].getTile().isCopulating());
 		beastPanel.getBeast().setLocation(newLoc);
 		beastPanel.getBeast().setOrientation(beastOrientation);
 		beastPanel.getBeast().removeStamina(1);

@@ -50,7 +50,8 @@ public class GraphicalMap2 extends JFrame{
 	private JPanel mapInfos;
 	private Moving movement;
 	private Fighting fight;
-	private Analyze analyzing = new Analyze();
+	private Treatment treatment;
+	private ArrayList<Location> foodLocation;
 	
 	private JLabel tileLocation;
 	private JTextArea beastInformations;
@@ -77,35 +78,46 @@ public class GraphicalMap2 extends JFrame{
 	
 	public void playGame() throws InterruptedException {
 		movement = new Moving();
-		fight = new Fighting();
+		treatment = new Treatment();
 		while(Map_Settings.SIMULATION_TURNS>0) {
 			Thread.sleep(Map_Settings.GAME_PAUSE);
 			if(pausedGame == false) {
 				if(selectedAbsciss!=-1 && selectedOrdinate!=-1) {
-					this.actualizeField(mapPanel.getTilePanel(selectedAbsciss,selectedOrdinate), mapPanel.getBeastPanel());
+					this.actualizeField(mapPanel.getTilePanel(selectedAbsciss,selectedOrdinate), mapPanel.getBeastPanel(), mapPanel.getFoodPanel());
 				}
 				for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 					for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
-						int beastPerTile = fight.analyseTile(mapPanel.getTilePanel(i,  j), mapPanel.getBeastPanel());
-						if(beastPerTile>=2) {
-							Image fightImage = Toolkit.getDefaultToolkit().getImage("assets/images/fight.png");
-							mapPanel.getTilePanel(i,  j).setBeastImage(fightImage);
+						int beastPerTile = treatment.analyseTile(mapPanel.getTilePanel(i,  j), mapPanel.getBeastPanel());
+						//if(beastPerTile>=2) {
+						//	Image fightImage = Toolkit.getDefaultToolkit().getImage("assets/images/fight.png");
+						//	mapPanel.getTilePanel(i,  j).setBeastImage(fightImage);
+							//ACTIONS NOT REQUIRED CAUSE ALREADY HANDLED IN TREATMENT BUT LATER WILL BE
 	//							System.out.println("Case: "+mapPanel.getTile(i,  j).getLocation()+" nombre de Betes: "+beastPerTile);
-						}
+						//}
 					}
 				}
 				
 				
-				
+//				System.out.println("TOTAL BEASTS: "+Map_Settings.TOTAL_BEASTS+"\n");
 				for(int i=0;i<Map_Settings.nbBeasts;i++) {
+					
 					if(mapPanel.getBeast(i).canMove()) {
 						//System.out.println("Number:"+mapPanel.getBeast(i)+" "+mapPanel.getBeast(i).canMove()+"\n");
 						movement.Move(mapPanel.getTilesPanel(), mapPanel.getBeastPanel(i));
+						int abcsiss = mapPanel.getBeast(i).getAbsciss();
+						int ordinate = mapPanel.getBeast(i).getOrdinate();
+						for(int j=0;j<mapPanel.getFoodPanel().size();j++) {
+							if(mapPanel.getFoodPanel().get(j).getLocation().getAbsciss()==abcsiss && mapPanel.getFoodPanel().get(j).getLocation().getOrdinate()== ordinate) {
+								treatment.eatFood(mapPanel.getBeast(i), mapPanel.getFoodPanel().get(j), mapPanel.getTile(abcsiss,  ordinate));
+							}
+						}
 					}
 				
 				}
 				
 				this.resetBeastImages();
+				this.resetImages();
+				repaint();
 				
 			}
 			Map_Settings.decrementTurns();
@@ -159,7 +171,8 @@ public class GraphicalMap2 extends JFrame{
 			
 		}
 		mapPanel = mapBuilder.setBeastImages(mapPanel);
-		
+		foodLocation = new ArrayList<Location>();
+		getFoodLocations();
 		
 		
 	}
@@ -262,13 +275,47 @@ public class GraphicalMap2 extends JFrame{
 		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
 			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
 				mapPanel.getTilePanel(i,  j).setBeastImage(null);
-				repaint();
 			}
 		}
 		for (int h=0;h<Map_Settings.nbBeasts;h++) {
 			mapPanel.getBeastPanel(h).setBeastImage();
 		}
 		mapPanel = mapBuilder.setBeastImages(mapPanel);
+	}
+	public void getFoodLocations() {
+		int absciss;
+		int ordinate;
+		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+				if(mapPanel.getTile(i,  j).containsFood()) {
+					absciss = mapPanel.getTile(i,  j).getAbsciss();
+					ordinate = mapPanel.getTile(i,  j).getOrdinate();
+					Location foodLoc = new Location(i, j);
+					System.out.println(foodLoc.toString()+"\n");
+					foodLocation.add(foodLoc);
+				}
+			}
+		}
+	}
+	
+	public void resetImages() {
+		int abcsiss = -1;
+		int ordinate = -1;
+		TilePanel tilePanel;
+		for (int i=0;i<Map_Settings.MAP_WIDTH;i++) {
+			for (int j=0;j<Map_Settings.MAP_LENGTH;j++) {
+				for(int h=0;h<foodLocation.size();h++) {
+					abcsiss = foodLocation.get(h).getAbsciss();
+					ordinate = foodLocation.get(h).getOrdinate();
+					tilePanel = mapPanel.getTilePanel(i,  j);
+					if(tilePanel.getTile().getAbsciss()==abcsiss && tilePanel.getTile().getOrdinate()==ordinate) {
+						Image image = Toolkit.getDefaultToolkit().getImage("assets/tiles/"+tilePanel.getTile().getBiome().getBiomeType()+"_1.png");
+						if(!tilePanel.getTile().containsFood()) tilePanel.setTileImage(image);
+					}
+				}
+			}
+		}
+
 	}
 	
 	
@@ -321,7 +368,7 @@ public class GraphicalMap2 extends JFrame{
 			if (e.getClickCount() == 2) {
 			    selectedAbsciss = tilePanel.getTile().getAbsciss();
 				selectedOrdinate = tilePanel.getTile().getOrdinate();
-			    actualizeField(tilePanel, beastsPanel);
+			    actualizeField(tilePanel, beastsPanel, mapPanel.getFoodPanel());
 			  }
 			else if(e.getClickCount()<2) {
 				tileLocation.setText("No tile selected");
@@ -343,13 +390,30 @@ public class GraphicalMap2 extends JFrame{
 	}
 	
 	
-	public void actualizeField(TilePanel tilePanel, ArrayList<BeastPanel> beastsPanel) {
-		tileLocation.setText("X: "+tilePanel.getTile().getAbsciss()+" Y "
-				+tilePanel.getTile().getOrdinate()+" Obstacle: "
-				+tilePanel.getTile().isObstacle()+" Fighting: "
-				+tilePanel.getTile().isFighting());
+	public void actualizeField(TilePanel tilePanel, ArrayList<BeastPanel> beastsPanel, ArrayList<Food> foodPanel) {
+		int absciss = tilePanel.getTile().getAbsciss();
+		int ordinate = tilePanel.getTile().getOrdinate();
+		int foodIndex = -1;
+		for(int i=0;i<foodPanel.size();i++) {
+			if(foodPanel.get(i).getLocation().getAbsciss()==absciss && foodPanel.get(i).getLocation().getOrdinate()==ordinate) foodIndex = i;
+		}
+		if(tilePanel.getTile().containsFood()) {
+			tileLocation.setText("X: "+tilePanel.getTile().getAbsciss()+" Y "
+					+tilePanel.getTile().getOrdinate()+" Obstacle: "
+					+tilePanel.getTile().isObstacle()+" Fighting: "
+					+tilePanel.getTile().isFighting()+" Food: "
+					+foodPanel.get(foodIndex).getFoodValue());
+		}
+		else {
+			tileLocation.setText("X: "+tilePanel.getTile().getAbsciss()+" Y "
+					+tilePanel.getTile().getOrdinate()+" Obstacle: "
+					+tilePanel.getTile().isObstacle()+" Fighting: "
+					+tilePanel.getTile().isFighting()+" Food: 0");
+		}
+
+		
 		int beastNumber;
-		if(tilePanel.getTile().isFighting()) {
+		if(tilePanel.getTile().isFighting() || tilePanel.getTile().isCopulating()) {
 			int firstNumber = tilePanel.getFirst();
 			int secondNumber = tilePanel.getSecond();
 			Beast firstBeast = beastsPanel.get(firstNumber).getBeast();
@@ -362,6 +426,9 @@ public class GraphicalMap2 extends JFrame{
 			+ "\n"+ firstBeast.getStats().stringStamina() + "	|  "+ secondBeast.getStats().stringStamina()
 			);
 		}
+		/*else if(tilePanel.getTile().isCopulating()) {
+			
+		}*/
 		else if((beastNumber=tilePanel.containsBeast(beastsPanel))>0) {
 			Beast beast = beastsPanel.get(beastNumber).getBeast();
 			beastInformations.setPreferredSize(new Dimension(160,80));
